@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\common\application\Application.csproj" />
+    <ProjectReference Include="..\domain\Domain.csproj" />
+  </ItemGroup>
+</Project>

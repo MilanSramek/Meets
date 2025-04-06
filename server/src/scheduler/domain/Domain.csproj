@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\common\domain\Domain.csproj" />
+    <ProjectReference Include="..\..\common\expansions\Expansions.csproj" />
+    <ProjectReference Include="..\..\common\tools\Tools.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Meets.Common.Domain" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,5 @@
+namespace $rootnamespace$;
+
+class $safeitemname$
+{
+}

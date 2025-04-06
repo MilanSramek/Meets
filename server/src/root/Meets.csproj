@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>31d3ffb1-a6bf-4bc9-9c42-0da099cf7053</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\common\infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\scheduler\persistence.mongodb\Persistence.MongoDb.csproj" />
+    <ProjectReference Include="..\scheduler\presentation\Presentation.GraphQL.csproj" />
+  </ItemGroup>
+
+</Project>
