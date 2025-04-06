@@ -4,7 +4,8 @@
     <PackageReference Include="Microsoft.Extensions.Options" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\common\persistence.mongodb\Persistence.MongoDb.csproj" />
-    <ProjectReference Include="..\domain\Domain.csproj" />
+    <ProjectReference Include="..\..\..\common\domain\Domain.csproj" />
+    <ProjectReference Include="..\..\..\common\persistence\mongodb\Persistence.MongoDb.csproj" />
+    <ProjectReference Include="..\..\domain\Domain.csproj" />
   </ItemGroup>
 </Project>

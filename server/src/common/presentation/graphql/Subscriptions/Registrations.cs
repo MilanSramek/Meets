@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Meets.Common.Presentation.Graphql.Subscriptions;
+namespace Meets.Common.Presentation.GraphQL.Subscriptions;
 
 public static class Registrations
 {

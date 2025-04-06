@@ -2,7 +2,7 @@
 
 using Meets.Common.Application;
 
-namespace Meets.Common.Presentation.Graphql;
+namespace Meets.Common.Presentation.GraphQL;
 
 public static class OptionalExtensions
 {

@@ -1,5 +1,5 @@
 ﻿using Meets.Common.Domain;
-using Meets.Common.Presentation.Graphql.Subscriptions;
+using Meets.Common.Presentation.GraphQL.Subscriptions;
 using Meets.Common.Tools.Disposables;
 using Meets.Common.Tools.Observables;
 using Meets.Scheduler.Polls;

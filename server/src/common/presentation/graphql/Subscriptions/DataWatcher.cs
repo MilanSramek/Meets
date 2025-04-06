@@ -1,6 +1,6 @@
 ﻿using HotChocolate.Execution;
 
-namespace Meets.Common.Presentation.Graphql.Subscriptions;
+namespace Meets.Common.Presentation.GraphQL.Subscriptions;
 
 internal sealed class DataWatcher<TDataEvent, TKey, TData> : ISourceStream
 {

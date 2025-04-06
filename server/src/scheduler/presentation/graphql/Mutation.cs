@@ -1,4 +1,4 @@
-﻿using Meets.Common.Presentation.Graphql;
+﻿using Meets.Common.Presentation.GraphQL;
 using Meets.Scheduler.Happenings;
 using Meets.Scheduler.Votes;
 

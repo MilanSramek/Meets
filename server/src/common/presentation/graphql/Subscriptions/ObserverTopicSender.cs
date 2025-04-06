@@ -1,6 +1,6 @@
 ﻿using HotChocolate.Subscriptions;
 
-namespace Meets.Common.Presentation.Graphql.Subscriptions;
+namespace Meets.Common.Presentation.GraphQL.Subscriptions;
 
 internal sealed class ObserverTopicSender<TObservedEvent, TTopicEvent>
     : IObserverTopicSender<TObservedEvent, TTopicEvent>

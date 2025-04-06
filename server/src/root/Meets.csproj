@@ -11,8 +11,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\common\infrastructure\Infrastructure.csproj" />
-    <ProjectReference Include="..\scheduler\persistence.mongodb\Persistence.MongoDb.csproj" />
-    <ProjectReference Include="..\scheduler\presentation\Presentation.GraphQL.csproj" />
+    <ProjectReference Include="..\scheduler\persistence\mongodb\Persistence.MongoDb.csproj" />
+    <ProjectReference Include="..\scheduler\presentation\graphql\Presentation.GraphQL.csproj" />
   </ItemGroup>
 
 </Project>

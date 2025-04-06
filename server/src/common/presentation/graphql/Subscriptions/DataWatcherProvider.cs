@@ -1,7 +1,7 @@
 ﻿using HotChocolate.Execution;
 using HotChocolate.Subscriptions;
 
-namespace Meets.Common.Presentation.Graphql.Subscriptions;
+namespace Meets.Common.Presentation.GraphQL.Subscriptions;
 
 internal sealed class DataWatcherProvider<TData, TKey, TDataEvent> : IDataWatcherProvider<TData, TKey>
 {
