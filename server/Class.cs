@@ -1,5 +1,0 @@
-namespace $rootnamespace$;
-
-class $safeitemname$
-{
-}
