@@ -1,0 +1,32 @@
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin
+      MONGO_INITDB_DATABASE: admin
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - meets-network
+
+  meets:
+    image: ghcr.io/milansramek/meets@sha256:918d5350061b82e21c7a36c894a47aa62b61114da7cc746fed60aebec658f495
+    container_name: meets
+    restart: unless-stopped
+    depends_on:
+      - mongo
+    ports:
+      - "80:8080"
+    networks:
+      - meets-network
+
+networks:
+  meets-network:
+
+volumes:
+  mongo_data:
