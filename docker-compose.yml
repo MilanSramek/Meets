@@ -15,7 +15,7 @@ services:
       - meets-network
 
   meets:
-    image: ghcr.io/milansramek/meets@sha256:918d5350061b82e21c7a36c894a47aa62b61114da7cc746fed60aebec658f495
+    image: ghcr.io/milansramek/meets:latest
     container_name: meets
     restart: unless-stopped
     depends_on:
