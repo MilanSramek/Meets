@@ -2,12 +2,12 @@ name: Docker
 
 on:
   schedule:
-    - cron: '40 18 * * *'
+    - cron: "40 18 * * *"
   push:
-    branches: 
+    branches:
       - main
     paths:
-      - 'server/**'
+      - "server/**"
   workflow_dispatch:
 
 env:
@@ -16,10 +16,8 @@ env:
   # github.repository as <account>/<repo>
   IMAGE_NAME: ${{ github.repository }}
 
-
 jobs:
   build:
-
     runs-on: ubuntu-latest
     environment: development
     permissions:
@@ -36,7 +34,7 @@ jobs:
       - name: Install cosign
         uses: sigstore/cosign-installer@59acb6260d9c0ba8f4a2f9d9b48431a222b68e20 #v3.5.0
         with:
-          cosign-release: 'v2.2.4'
+          cosign-release: "v2.2.4"
 
       # Set up BuildKit Docker container builder to be able to build
       # multi-platform images and export cache
@@ -75,6 +73,7 @@ jobs:
         with:
           context: ./server
           push: true
+          platforms: linux/amd64,linux/arm64
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
