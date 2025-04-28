@@ -62,6 +62,7 @@ jobs:
             type=semver,pattern={{version}}
             type=semver,pattern={{major}}.{{minor}}
             type=raw,value=latest,enable=${{ github.ref == format('refs/heads/{0}', 'main') }}
+            type=raw,value=${{ env.BUILD_CONFIGURATION }}
 
       # Build and push Docker image with Buildx
       # https://github.com/docker/build-push-action
@@ -76,6 +77,8 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          build-args: |
+            BUILD_CONFIGURATION=${{ env.BUILD_CONFIGURATION }}
 
       # Sign the resulting Docker image digest except on PRs.
       # This will only write to the public Rekor transparency log when the Docker
