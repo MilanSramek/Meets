@@ -17,11 +17,13 @@ services:
   meets:
     image: ghcr.io/milansramek/meets:latest
     container_name: meets
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
     restart: unless-stopped
     depends_on:
       - mongo
     ports:
-      - "80:8080"
+      - "80:80"
     networks:
       - meets-network
 

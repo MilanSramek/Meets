@@ -4,13 +4,22 @@ using Meets.Scheduler;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
+
+builder.WebHost.UseUrls("http://*:80");
+
 var services = builder.Services;
 
-services
-    .AddLogging(log =>
-    {
-        log.AddConsole();
-    });
+if (builder.Environment.IsDevelopment())
+{
+    services.AddCors(options => options.AddPolicy("AllowAllOrigins", _ => _
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader()));
+
+    builder.Logging.AddDebug();
+}
 
 services
     .AddGraphQLPresentation()
@@ -26,7 +35,11 @@ services
     .ValidateDataAnnotations();
 
 var app = builder.Build();
-app.Services.InitializeGraphQLPresentation();
 
+app.Services.InitializeGraphQLPresentation();
+if (app.Environment.IsDevelopment())
+{
+    app.UseCors("AllowAllOrigins");
+}
 app.MapGraphQL("/graphql");
 await app.RunAsync();
