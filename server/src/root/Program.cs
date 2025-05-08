@@ -2,47 +2,69 @@ using Meets.Common.Infrastructure;
 using Meets.Common.Persistence.MongoDb;
 using Meets.Scheduler;
 
-var builder = WebApplication.CreateBuilder(args);
+using Serilog;
 
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
+Log.Logger = new LoggerConfiguration()
+    .Enrich.FromLogContext()
+    .WriteTo.Console()
+    .CreateBootstrapLogger();
 
-builder.WebHost.UseUrls("http://*:80");
-
-var services = builder.Services;
-
-if (builder.Environment.IsDevelopment())
+try
 {
-    services.AddCors(options => options.AddPolicy("AllowAllOrigins", _ => _
-        .AllowAnyOrigin()
-        .AllowAnyMethod()
-        .AllowAnyHeader()));
+    Log.Information("Starting application");
 
-    builder.Logging.AddDebug();
+    var builder = WebApplication.CreateBuilder(args);
+
+    var services = builder.Services;
+    services
+        .AddSerilog((services, config) => config
+            .Enrich.FromLogContext()
+            .WriteTo.Console());
+
+    if (builder.Environment.IsDevelopment())
+    {
+        services.AddCors(options => options.AddPolicy("AllowAllOrigins", _ => _
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()));
+
+        builder.Logging.AddDebug();
+    }
+
+    services
+        .AddGraphQLPresentation()
+        .AddMongoDbPersistence()
+        .AddInfrastructure()
+        .AddApplication()
+        .AddDomain();
+
+    var configuration = builder.Configuration;
+    configuration
+        .AddKeyPerFile("/run/secrets", optional: true); // docker secret
+
+    services
+        .AddOptions<MongoClientDbOptions>()
+        .Bind(configuration.GetSection("db"))
+        .ValidateDataAnnotations();
+
+    builder.WebHost.UseUrls("http://*:80");
+    var app = builder.Build();
+
+    app.Services.InitializeGraphQLPresentation();
+
+    app.UseSerilogRequestLogging();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseCors("AllowAllOrigins");
+    }
+    app.MapGraphQL("/graphql");
+    await app.RunAsync();
 }
-
-services
-    .AddGraphQLPresentation()
-    .AddMongoDbPersistence()
-    .AddInfrastructure()
-    .AddApplication()
-    .AddDomain();
-
-var configuration = builder.Configuration;
-configuration
-    .AddKeyPerFile("/run/secrets", optional: true); // docker secret
-
-services
-    .AddOptions<MongoClientDbOptions>()
-    .Bind(configuration.GetSection("db"))
-    .ValidateDataAnnotations();
-
-var app = builder.Build();
-
-app.Services.InitializeGraphQLPresentation();
-if (app.Environment.IsDevelopment())
+catch (Exception ex)
 {
-    app.UseCors("AllowAllOrigins");
+    Log.Fatal(ex, "Application terminated unexpectedly");
 }
-app.MapGraphQL("/graphql");
-await app.RunAsync();
+finally
+{
+    Log.CloseAndFlush();
+}
