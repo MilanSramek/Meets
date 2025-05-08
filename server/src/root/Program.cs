@@ -29,9 +29,12 @@ services
     .AddDomain();
 
 var configuration = builder.Configuration;
+configuration
+    .AddKeyPerFile("/run/secrets", optional: true); // docker secret
+
 services
     .AddOptions<MongoClientDbOptions>()
-    .Bind(configuration.GetSection(MongoClientDbOptions.SectionName))
+    .Bind(configuration.GetSection("db"))
     .ValidateDataAnnotations();
 
 var app = builder.Build();

@@ -4,17 +4,15 @@ namespace Meets.Common.Persistence.MongoDb;
 
 public sealed class MongoClientDbOptions
 {
-    public const string SectionName = "MongoDb";
-
     [Required]
     public string Host { get; set; }
 
     [Required]
-    public string Database { get; init; }
+    public string Database { get; set; }
 
     [Required]
-    public string Username { get; init; }
+    public string Username { get; set; }
 
     [Required]
-    public string Password { get; init; }
+    public string Password { get; set; }
 }

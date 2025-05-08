@@ -28,7 +28,7 @@ public static class Registrations
         .AddTransient<IVoteRepository, VoteRepository>()
         .AddTransient<IReadOnlyRepository<Vote, Guid>, VoteRepository>();
 
-    private static void RegistreMaps() => new ClassMapRegistry()
+    private static void RegisterMaps() => new ClassMapRegistry()
         .AddMap(new EntityConfig())
         .AddMap(new AggregateRootConfig())
         .AddMap(new HappeningConfig())
@@ -53,7 +53,7 @@ public static class Registrations
             });
         }
 
-        RegistreMaps();
+        RegisterMaps();
         BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
         return services
             .AddSingleton<IMongoClient>(CreateMongoClient)
