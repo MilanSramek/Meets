@@ -47,17 +47,41 @@ public sealed class ErrorLogger : ExecutionDiagnosticEventListener
     {
         _logger.LogError(
             exception,
-            "An error occurred while processing request '{requestName}'",
-            context.Operation?.Name ?? "<<anonymous>>");
+            "An error occurred while processing request '{operationName}' (ID = {operationId})",
+            context.Operation?.Name ?? "<<anonymous>>",
+            context.Operation?.Id ?? "<<unknown>>");
         base.RequestError(context, exception);
+    }
+
+    public override void SubscriptionEventError(SubscriptionEventContext context,
+        Exception exception)
+    {
+        _logger.LogError(
+            exception,
+            "An error occurred while producing event result of subscription '{operationName}' (ID = {operationId})",
+            context.Subscription.Operation?.Name ?? "<<anonymous>>",
+            context.Subscription.Operation?.Id ?? "<<unknown>>");
+        base.SubscriptionEventError(context, exception);
+    }
+
+    public override void SubscriptionTransportError(ISubscription subscription,
+        Exception exception)
+    {
+        _logger.LogError(
+            exception,
+            "An error occurred while transporting event result of subscription '{operationName}' (ID = {operationId})",
+            subscription.Operation?.Name ?? "<<anonymous>>",
+            subscription.Operation?.Id ?? "<<unknown>>");
+        base.SubscriptionTransportError(subscription, exception);
     }
 
     private void LogError(IError error, IOperation? operation)
     {
         _logger.LogError(
             error.Exception,
-            "An error occurred while processing request '{requestName}' at path '{path}'",
+            "An error occurred while resolving '{path}' for operation '{operationName}' (ID = {operationId})",
             operation?.Name ?? "<<anonymous>>",
+            operation?.Id ?? "<<unknown>>",
             error.Path);
     }
 }
