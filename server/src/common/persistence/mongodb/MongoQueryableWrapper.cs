@@ -47,7 +47,7 @@ internal sealed class MongoQueryableWrapper<T> : IQueryable<T>, IAsyncEnumerable
 
     public async IAsyncEnumerator<T> GetAsyncEnumerator(CancellationToken cancellationToken = default)
     {
-        var cursor = await _innerQueryable.ToCursorAsync(cancellationToken);
+        using var cursor = await _innerQueryable.ToCursorAsync(cancellationToken);
         while (await cursor.MoveNextAsync(cancellationToken))
         {
             foreach (var item in cursor.Current)

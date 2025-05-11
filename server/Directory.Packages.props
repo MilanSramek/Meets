@@ -1,8 +1,10 @@
 <Project>
   <ItemGroup>
     <PackageVersion Include="HotChocolate.AspNetCore" Version="15.0.3" />
+    <PackageVersion Include="HotChocolate.Execution" Version="15.0.3" />
     <PackageVersion Include="HotChocolate.Types" Version="15.0.3" />
     <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.4" />
     <PackageVersion Include="Microsoft.Extensions.Options" Version="9.0.0" />
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.2" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />

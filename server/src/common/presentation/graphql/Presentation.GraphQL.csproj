@@ -2,6 +2,8 @@
 
   <ItemGroup>
     <PackageReference Include="HotChocolate.Types" />
+    <PackageReference Include="HotChocolate.Execution" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
 
   <ItemGroup>
