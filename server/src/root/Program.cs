@@ -27,8 +27,6 @@ try
             .AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader()));
-
-        builder.Logging.AddDebug();
     }
 
     services
