@@ -80,8 +80,8 @@ public sealed class ErrorLogger : ExecutionDiagnosticEventListener
         _logger.LogError(
             error.Exception,
             "An error occurred while resolving '{path}' for operation '{operationName}' (ID = {operationId})",
+            error.Path,
             operation?.Name ?? "<<anonymous>>",
-            operation?.Id ?? "<<unknown>>",
-            error.Path);
+            operation?.Id ?? "<<unknown>>");
     }
 }
