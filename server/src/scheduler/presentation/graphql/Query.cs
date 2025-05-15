@@ -1,26 +1,26 @@
 ﻿using Meets.Common.Domain;
-using Meets.Scheduler.Happenings;
+using Meets.Scheduler.Activities;
 
 namespace Meets.Scheduler;
 
 internal sealed class Query
 {
-    public async Task<HappeningModel> GetHappeningAsync(
+    public async Task<ActivityModel> GetActivityAsync(
         Guid id,
-        [Service] IReadOnlyRepository<Happening, Guid> happenings,
+        [Service] IReadOnlyRepository<Activity, Guid> activities,
         CancellationToken cancellationToken)
     {
-        var happening = await happenings.GetAsync(id, cancellationToken);  // ToDo: DataLoader
-        return happening.MapToModel();
+        var activity = await activities.GetAsync(id, cancellationToken);  // ToDo: DataLoader
+        return activity.MapToModel();
     }
 
     // ToDo: Remove
-    public async Task<IEnumerable<HappeningModel>> GetHappeningsAsync(
-        [Service] IReadOnlyRepository<Happening, Guid> happenings,
+    public async Task<IEnumerable<ActivityModel>> GetActivitiesAsync(
+        [Service] IReadOnlyRepository<Activity, Guid> activities,
         CancellationToken cancellationToken)
     {
-        var happening = await happenings.ToListAsync(cancellationToken);
-        return happening
-            .Select(HappeningMapper.MapToModel);
+        var activity = await activities.ToListAsync(cancellationToken);
+        return activity
+            .Select(ActivityMapper.MapToModel);
     }
 }

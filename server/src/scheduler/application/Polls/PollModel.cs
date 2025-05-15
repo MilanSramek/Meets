@@ -3,5 +3,5 @@
 public sealed record PollModel
 (
     Guid Id,
-    Guid EventId
+    Guid ActivityId
 );

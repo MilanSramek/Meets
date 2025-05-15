@@ -1,4 +1,4 @@
-﻿using Meets.Scheduler.Happenings;
+﻿using Meets.Scheduler.Activities;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -9,6 +9,6 @@ public static class Registrations
     public static IServiceCollection AddDomain(this IServiceCollection services)
     {
         return services
-            .AddScoped<IHappeningCreationManager, HappeningCreationManager>();
+            .AddScoped<IActivityCreationManager, ActivityCreationManager>();
     }
 }

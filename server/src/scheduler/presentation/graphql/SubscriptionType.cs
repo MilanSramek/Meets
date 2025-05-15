@@ -1,4 +1,4 @@
-﻿using Meets.Scheduler.Happenings;
+﻿using Meets.Scheduler.Activities;
 using Meets.Scheduler.Polls;
 
 namespace Meets.Scheduler;
@@ -8,18 +8,18 @@ internal sealed class SubscriptionType : ObjectType
     protected override void Configure(IObjectTypeDescriptor descriptor)
     {
         descriptor
-            .Field("happening")
-            .Type<HappeningType>()
+            .Field("Activity")
+            .Type<ActivityType>()
             .Argument("id", arg => arg.Type<NonNullType<UuidType>>())
-            .Description("Subscribe to a happening by its identifier.")
-            .Resolve(ctx => ctx.GetEventMessage<HappeningModel>())
+            .Description("Subscribe to a activity by its identifier.")
+            .Resolve(ctx => ctx.GetEventMessage<ActivityModel>())
             .Subscribe(ctx =>
             {
-                var happeningId = ctx.ArgumentValue<Guid>("id");
+                var ActivityId = ctx.ArgumentValue<Guid>("id");
                 var cancellationToken = ctx.RequestAborted;
-                var watcherProvider = ctx.Service<HappeningWatcherProvider>();
+                var watcherProvider = ctx.Service<ActivityWatcherProvider>();
 
-                return watcherProvider(happeningId, cancellationToken);
+                return watcherProvider(ActivityId, cancellationToken);
             });
 
         descriptor

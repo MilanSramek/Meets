@@ -1,29 +1,29 @@
 ﻿using Meets.Common.Presentation.GraphQL;
-using Meets.Scheduler.Happenings;
+using Meets.Scheduler.Activities;
 using Meets.Scheduler.Votes;
 
 namespace Meets.Scheduler;
 
 internal sealed class Mutation
 {
-    public Task<HappeningModel> CreateHappeningAsync(
-        CreateHappeningInput input,
-        [Service] IHappeningCreationService happeningService,
+    public Task<ActivityModel> CreateActivityAsync(
+        CreateActivityInput input,
+        [Service] IActivityCreationService activityService,
         CancellationToken cancellationToken)
     {
-        return happeningService.CreateEventAsync(input, cancellationToken);
+        return activityService.CreateActivityAsync(input, cancellationToken);
     }
 
-    public Task<HappeningModel> UpdateHappeningAsync(
+    public Task<ActivityModel> UpdateActivityAsync(
         Guid id,
-        UpdateHappeningInterInput input,
-        [Service] IHappeningUpdateService happeningService,
+        UpdateActivityInterInput input,
+        [Service] IActivityUpdateService activityService,
         CancellationToken cancellationToken)
     {
-        var properInput = new UpdateHappeningInput(
+        var properInput = new UpdateActivityInput(
             input.Name.ToOpt(),
             input.Description.ToOpt());
-        return happeningService.UpdateEventAsync(id, properInput, cancellationToken);
+        return activityService.UpdateActivityAsync(id, properInput, cancellationToken);
     }
 
     public Task<VoteModel> AddVoteAsync(
