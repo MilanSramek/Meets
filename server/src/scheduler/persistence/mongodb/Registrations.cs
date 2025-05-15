@@ -1,6 +1,6 @@
 ﻿using Meets.Common.Domain;
 using Meets.Common.Persistence.MongoDb;
-using Meets.Scheduler.Happenings;
+using Meets.Scheduler.Activities;
 using Meets.Scheduler.Polls;
 using Meets.Scheduler.Votes;
 
@@ -21,8 +21,8 @@ public static class Registrations
         .AddRepositories();
 
     private static IServiceCollection AddRepositories(this IServiceCollection services) => services
-        .AddTransient<IHappeningRepository, HappeningsRepository>()
-        .AddTransient<IReadOnlyRepository<Happening, Guid>, HappeningsRepository>()
+        .AddTransient<IActivityRepository, ActivitiesRepository>()
+        .AddTransient<IReadOnlyRepository<Activity, Guid>, ActivitiesRepository>()
         .AddTransient<IPollRepository, PollRepository>()
         .AddTransient<IReadOnlyRepository<Poll, Guid>, PollRepository>()
         .AddTransient<IVoteRepository, VoteRepository>()
@@ -31,7 +31,7 @@ public static class Registrations
     private static void RegisterMaps() => new ClassMapRegistry()
         .AddMap(new EntityConfig())
         .AddMap(new AggregateRootConfig())
-        .AddMap(new HappeningConfig())
+        .AddMap(new ActivityConfig())
         .AddMap(new PollConfig())
         .AddMap(new VoteConfig())
         .AddMap(new VoteItemConfig());

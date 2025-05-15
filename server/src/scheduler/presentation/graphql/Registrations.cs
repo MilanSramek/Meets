@@ -1,5 +1,5 @@
 ﻿using Meets.Common.Presentation.GraphQL;
-using Meets.Scheduler.Happenings;
+using Meets.Scheduler.Activities;
 using Meets.Scheduler.Polls;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -18,13 +18,13 @@ public static class Registrations
             .AddSubscriptionType<SubscriptionType>()
             .AddType<QueryType>()
             .AddType<MutationType>()
-            .AddType<HappeningType>()
-            .AddType<UpdateEventInputType>()
+            .AddType<ActivityType>()
+            .AddType<UpdateActivityInputType>()
             .ModifyOptions(_ => _.DefaultBindingBehavior = BindingBehavior.Explicit)
             .AddDiagnosticEventListener<ErrorLogger>();
 
         services
-            .AddHappeningWatch()
+            .AddActivityWatch()
             .AddPollWatch();
 
         return services;

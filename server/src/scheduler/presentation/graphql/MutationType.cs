@@ -1,4 +1,4 @@
-﻿using Meets.Scheduler.Happenings;
+﻿using Meets.Scheduler.Activities;
 using Meets.Scheduler.Votes;
 
 namespace Meets.Scheduler;
@@ -8,17 +8,17 @@ internal class MutationType : ObjectType<Mutation>
     protected override void Configure(IObjectTypeDescriptor<Mutation> descriptor)
     {
         descriptor
-            .Field(_ => _.CreateHappeningAsync(default!, default!, default!))
-            .Name("createHappening")
-            .Type<NonNullType<HappeningType>>()
-            .Argument("input", _ => _.Type<NonNullType<CreateHappeningInputType>>())
-            .Description("Creates a new happening.");
+            .Field(_ => _.CreateActivityAsync(default!, default!, default!))
+            .Name("createActivity")
+            .Type<NonNullType<ActivityType>>()
+            .Argument("input", _ => _.Type<NonNullType<CreateActivityInputType>>())
+            .Description("Creates a new activity.");
 
         descriptor
-            .Field(_ => _.UpdateHappeningAsync(default, default!, default!, default!))
-            .Name("updateHappening")
-            .Type<NonNullType<HappeningType>>()
-            .Description("Updates an happening with a specified ID.");
+            .Field(_ => _.UpdateActivityAsync(default, default!, default!, default!))
+            .Name("updateActivity")
+            .Type<NonNullType<ActivityType>>()
+            .Description("Updates an activity with a specified ID.");
 
         descriptor
             .Field(_ => _.AddVoteAsync(default!, default!, default!))

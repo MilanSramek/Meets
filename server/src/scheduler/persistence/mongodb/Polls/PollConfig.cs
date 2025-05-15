@@ -9,7 +9,7 @@ internal sealed class PollConfig : IClassMapConfiguration<Poll>
     public void Configure(BsonClassMap<Poll> poll)
     {
         poll
-            .MapProperty(_ => _.HappeningId)
+            .MapProperty(_ => _.ActivityId)
             .SetIsRequired(true);
     }
 }

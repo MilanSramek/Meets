@@ -2,14 +2,14 @@
 
 public sealed class Poll : AggregateRoot<Guid>
 {
-    public Guid HappeningId { get; private set; }
+    public Guid ActivityId { get; private set; }
 
-    public Poll(Guid eventId)
+    public Poll(Guid activityId)
     {
-        HappeningId = eventId;
+        ActivityId = activityId;
     }
 
-    public Poll(Guid id, Guid happeningId) : this(happeningId)
+    public Poll(Guid id, Guid activityId) : this(activityId)
     {
         Id = id;
     }

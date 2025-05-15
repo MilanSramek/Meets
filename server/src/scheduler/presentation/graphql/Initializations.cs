@@ -1,5 +1,5 @@
 ﻿using Meets.Common.Tools.Disposables;
-using Meets.Scheduler.Happenings;
+using Meets.Scheduler.Activities;
 using Meets.Scheduler.Polls;
 
 namespace Meets.Scheduler;
@@ -10,6 +10,6 @@ public static class Initializations
     {
         return Disposable.Combine(
             provider.InitializePollWatch(),
-            provider.InitializeHappeningWatch());
+            provider.InitializeActivityWatch());
     }
 }
