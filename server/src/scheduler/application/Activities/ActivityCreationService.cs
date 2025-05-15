@@ -8,11 +8,11 @@ internal sealed class ActivityCreationService : IActivityCreationService
     private readonly IUnitOfWorkManager _unitOfWorkManager;
 
     public ActivityCreationService(
-        IActivityCreationManager ActivityCreationManager,
+        IActivityCreationManager activityCreationManager,
         IUnitOfWorkManager unitOfWorkManager)
     {
-        _activityCreationManager = ActivityCreationManager
-            ?? throw new ArgumentNullException(nameof(ActivityCreationManager));
+        _activityCreationManager = activityCreationManager
+            ?? throw new ArgumentNullException(nameof(activityCreationManager));
         _unitOfWorkManager = unitOfWorkManager
             ?? throw new ArgumentNullException(nameof(unitOfWorkManager));
     }

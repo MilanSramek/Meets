@@ -4,15 +4,15 @@ namespace Meets.Scheduler.Activities;
 
 internal sealed class ActivityUpdateService : IActivityUpdateService
 {
-    private readonly IActivityRepository _ActivityRepository;
+    private readonly IActivityRepository _activityRepository;
     private readonly IUnitOfWorkManager _unitOfWorkManager;
 
     public ActivityUpdateService(
-        IActivityRepository ActivityRepository,
+        IActivityRepository activityRepository,
         IUnitOfWorkManager unitOfWorkManager)
     {
-        _ActivityRepository = ActivityRepository
-            ?? throw new ArgumentNullException(nameof(ActivityRepository));
+        _activityRepository = activityRepository
+            ?? throw new ArgumentNullException(nameof(activityRepository));
         _unitOfWorkManager = unitOfWorkManager
             ?? throw new ArgumentNullException(nameof(unitOfWorkManager));
     }
@@ -24,7 +24,7 @@ internal sealed class ActivityUpdateService : IActivityUpdateService
     {
         await using var unitOfWork = await _unitOfWorkManager.BeginAsync();
 
-        var activity = await _ActivityRepository.GetAsync(id, cancellationToken);
+        var activity = await _activityRepository.GetAsync(id, cancellationToken);
         if (input.Name.HasValue)
         {
             activity.SetName(input.Name.Value);
@@ -33,7 +33,7 @@ internal sealed class ActivityUpdateService : IActivityUpdateService
         {
             activity.SetDescription(input.Description.Value);
         }
-        await _ActivityRepository.UpdateAsync(activity, cancellationToken);
+        await _activityRepository.UpdateAsync(activity, cancellationToken);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);

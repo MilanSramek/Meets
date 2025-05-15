@@ -10,8 +10,8 @@ internal sealed class Query
         [Service] IReadOnlyRepository<Activity, Guid> activities,
         CancellationToken cancellationToken)
     {
-        var Activity = await activities.GetAsync(id, cancellationToken);  // ToDo: DataLoader
-        return Activity.MapToModel();
+        var activity = await activities.GetAsync(id, cancellationToken);  // ToDo: DataLoader
+        return activity.MapToModel();
     }
 
     // ToDo: Remove
@@ -19,8 +19,8 @@ internal sealed class Query
         [Service] IReadOnlyRepository<Activity, Guid> activities,
         CancellationToken cancellationToken)
     {
-        var Activity = await activities.ToListAsync(cancellationToken);
-        return Activity
+        var activity = await activities.ToListAsync(cancellationToken);
+        return activity
             .Select(ActivityMapper.MapToModel);
     }
 }
