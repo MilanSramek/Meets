@@ -1,9 +1,0 @@
-<Project>
-  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
-
-  <PropertyGroup>
-    <AssemblyNamePrefix>Meets.Common</AssemblyNamePrefix>
-    <AssemblyName>$(AssemblyNamePrefix).$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Meets.Common.$(MSBuildProjectName)</RootNamespace>
-  </PropertyGroup>
-</Project>
