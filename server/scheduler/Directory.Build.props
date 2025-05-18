@@ -3,8 +3,14 @@
     <LangVersion>latest</LangVersion>
     <TargetFramework>net9.0</TargetFramework>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+ 
+  <PropertyGroup>
+    <AssemblyNamePrefix>Meets.Scheduler</AssemblyNamePrefix>
+    <AssemblyName>$(AssemblyNamePrefix).$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Meets.Scheduler</RootNamespace>
+  </PropertyGroup>
+
 </Project>

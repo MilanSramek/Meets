@@ -3,9 +3,9 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\common\domain\Domain.csproj" />
-    <ProjectReference Include="..\..\common\expansions\Expansions.csproj" />
-    <ProjectReference Include="..\..\common\tools\Tools.csproj" />
+    <ProjectReference Include="..\..\..\common\src\domain\Domain.csproj" />
+    <ProjectReference Include="..\..\..\common\src\expansions\Expansions.csproj" />
+    <ProjectReference Include="..\..\..\common\src\tools\Tools.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Using Include="Meets.Common.Domain" />

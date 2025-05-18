@@ -1,0 +1,19 @@
+<Project>
+    <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <TargetFramework>net9.0</TargetFramework>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <AssemblyNamePrefix>Meets.Common</AssemblyNamePrefix>
+    <AssemblyName>$(AssemblyNamePrefix).$(MSBuildProjectName)</AssemblyName>
+    <RootNamespace>Meets.Common.$(MSBuildProjectName)</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="$(AssemblyName).Tests"/>
+  </ItemGroup>
+</Project>
