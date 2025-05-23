@@ -1,6 +1,9 @@
-﻿namespace Meets.Common.Domain;
+﻿using System.Security.Principal;
 
-public abstract class AggregateRoot<TId> : Entity<TId> where TId : notnull
+namespace Meets.Common.Domain;
+
+public abstract class AggregateRoot<TId> : Entity<TId>, IAggregateRoot<TId>
+    where TId : notnull
 {
     private HashSet<object>? _localEvents;
 

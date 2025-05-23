@@ -1,12 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.Options" />
-    <PackageReference Include="MongoDB.Driver" />
+    <PackageReference Include="OpenIddict.MongoDb" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\common\src\persistence\mongodb\Persistence.MongoDb.csproj" />
     <ProjectReference Include="..\..\domain\Domain.csproj" />
-    <ProjectReference Include="..\..\infrastructure\Infrastructure.csproj" />
   </ItemGroup>
-
 </Project>

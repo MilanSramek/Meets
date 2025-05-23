@@ -1,6 +1,4 @@
-using Meets.Common.Infrastructure;
 using Meets.Common.Persistence.MongoDb;
-using Meets.Scheduler;
 
 using Serilog;
 
@@ -21,6 +19,7 @@ try
             .Enrich.FromLogContext()
             .WriteTo.Console());
 
+
     if (builder.Environment.IsDevelopment())
     {
         services.AddCors(options => options.AddPolicy("AllowAllOrigins", _ => _
@@ -30,11 +29,9 @@ try
     }
 
     services
-        .AddGraphQLPresentation()
-        .AddMongoDbPersistence()
-        .AddInfrastructure()
+        .AddPresentation()
         .AddApplication()
-        .AddDomain();
+        .AddPersistence();
 
     var configuration = builder.Configuration;
     configuration
@@ -48,7 +45,6 @@ try
     builder.WebHost.UseUrls("http://*:80");
     var app = builder.Build();
 
-    app.Services.InitializeGraphQLPresentation();
 
     app.UseSerilogRequestLogging();
     app.UseForwardedHeaders();
@@ -59,7 +55,8 @@ try
         app.UseCors("AllowAllOrigins");
     }
 
-    app.MapGraphQL("/graphql");
+    app.MapAuthorityEndpoints();
+
     await app.RunAsync();
 }
 catch (Exception ex)

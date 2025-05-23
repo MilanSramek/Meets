@@ -8,13 +8,13 @@
   </PropertyGroup>
  
   <PropertyGroup>
-    <AssemblyNamePrefix>Meets.Scheduler</AssemblyNamePrefix>
+    <AssemblyNamePrefix>Meets.Identity</AssemblyNamePrefix>
     <AssemblyName>$(AssemblyNamePrefix).$(MSBuildProjectName)</AssemblyName>
-    <RootNamespace>Meets.Scheduler</RootNamespace>
+    <RootNamespace>Meets.Identity</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
-    <Using Include="Meets.Scheduler" />
+    <Using Include="Meets.Identity" />
   </ItemGroup>
 
 </Project>
