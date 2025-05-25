@@ -1,14 +1,16 @@
 using Meets.Common.Domain;
 using Meets.Identity.Core;
 
-namespace Meets.Identity;
+using Microsoft.AspNetCore.Identity;
 
-internal sealed class SignOutService : ISignOutService
+namespace Meets.Identity.Users;
+
+internal sealed class SignInService : ISignInService
 {
     private readonly SignInManager _signInManager;
     private readonly IUnitOfWorkManager _unitOfWorkManager;
 
-    public SignOutService(
+    public SignInService(
         SignInManager signInManager,
         IUnitOfWorkManager unitOfWorkManager)
     {
@@ -16,13 +18,22 @@ internal sealed class SignOutService : ISignOutService
         _unitOfWorkManager = unitOfWorkManager;
     }
 
-    public async Task SignOutAsync(
+    public async Task<SignInResult> PasswordSignInAsync(
+        SignInUserInput input,
         CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(input);
+
         await using var unitOfWork = await _unitOfWorkManager.BeginAsync();
-        await _signInManager.SignOutAsync();
+        var result = await _signInManager.PasswordSignInAsync(
+            input.UserName,
+            input.Password,
+            isPersistent: true,
+            lockoutOnFailure: false);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
         await unitOfWork.CompleteAsync(cancellationToken);
+
+        return result;
     }
 }

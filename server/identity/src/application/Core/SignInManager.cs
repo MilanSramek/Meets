@@ -1,4 +1,4 @@
-using Meets.Identity.ApplicationUsers;
+using Meets.Identity.Users;
 
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authentication;
@@ -17,7 +17,7 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 
 namespace Meets.Identity.Core;
 
-internal sealed class SignInManager : SignInManager<ApplicationUser>
+internal sealed class SignInManager : SignInManager<User>
 {
     private readonly FrozenSet<string> _scopes = FrozenSet.ToFrozenSet(
     [
@@ -28,13 +28,13 @@ internal sealed class SignInManager : SignInManager<ApplicationUser>
     ]);
 
     public SignInManager(
-        UserManager<ApplicationUser> userManager,
+        UserManager<User> userManager,
         IHttpContextAccessor contextAccessor,
-        IUserClaimsPrincipalFactory<ApplicationUser> claimsFactory,
+        IUserClaimsPrincipalFactory<User> claimsFactory,
         IOptions<IdentityOptions> optionsAccessor,
         ILogger<SignInManager> logger,
         IAuthenticationSchemeProvider schemes,
-        IUserConfirmation<ApplicationUser> confirmation)
+        IUserConfirmation<User> confirmation)
             : base(
                 userManager,
                 contextAccessor,
@@ -48,7 +48,7 @@ internal sealed class SignInManager : SignInManager<ApplicationUser>
     }
 
     public override async Task<ClaimsPrincipal> CreateUserPrincipalAsync(
-        ApplicationUser user)
+        User user)
     {
         var request = Context.GetOpenIddictServerRequest()
            ?? throw new Exception("OpenIddict is not configured.");

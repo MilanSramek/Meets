@@ -1,3 +1,4 @@
+using Meets.Common.Infrastructure;
 using Meets.Common.Persistence.MongoDb;
 
 using Serilog;
@@ -31,7 +32,8 @@ try
     services
         .AddPresentation()
         .AddApplication()
-        .AddPersistence();
+        .AddPersistence()
+        .AddInfrastructure();
 
     var configuration = builder.Configuration;
     configuration

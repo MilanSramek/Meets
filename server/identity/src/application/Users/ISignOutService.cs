@@ -1,4 +1,4 @@
-namespace Meets.Identity;
+namespace Meets.Identity.Users;
 
 public interface ISignOutService
 {

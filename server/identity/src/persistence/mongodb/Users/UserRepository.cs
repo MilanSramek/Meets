@@ -3,18 +3,18 @@ using Meets.Common.Persistence.MongoDb;
 
 using MongoDB.Driver;
 
-namespace Meets.Identity.ApplicationUsers;
+namespace Meets.Identity.Users;
 
-internal sealed class ApplicationUserRepository
+internal sealed class UserRepository
 (
     IMongoDatabase database,
     IDomainEventCollectorAccessor eventCollectorAccessor,
     IIntegrationEventCollectorAccessor integrationEventCollectorAccessor
 ) :
-    MongoRepository<ApplicationUser, Guid>(
+    MongoRepository<User, Guid>(
         database,
         eventCollectorAccessor,
         integrationEventCollectorAccessor),
-    IApplicationUserRepository
+    IUserRepository
 {
 }

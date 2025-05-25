@@ -7,7 +7,10 @@ using Microsoft.AspNetCore;
 using OpenIddict.Abstractions;
 using OpenIddict.Server.AspNetCore;
 
+using Meets.Identity.Users;
+
 using static OpenIddict.Abstractions.OpenIddictConstants;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Meets.Identity;
 
@@ -17,19 +20,21 @@ public static class Endpoints
     {
         app.MapPost(EndpointPath.Token, async (
             HttpContext context,
-            ISignInService signInManager,
+            [FromServices] ISignInService signInManager,
             CancellationToken cancellationToken) =>
         {
             var request = context.GetOpenIddictServerRequest();
-            if (request is null || request.IsPasswordGrantType())
+            if (request is null || !request.IsPasswordGrantType())
             {
                 return Results.BadRequest("Invalid grant type.");
             }
 
-            var result = await signInManager.PasswordSignInAsync(
-                request.Username!,
-                request.Password!,
-                cancellationToken);
+            var result = await signInManager.PasswordSignInAsync(new
+            (
+                UserName: request.Username!,
+                Password: request.Password!
+            ),
+            cancellationToken);
             if (result.Succeeded)
             {
                 return Results.Ok();
@@ -53,10 +58,35 @@ public static class Endpoints
         });
 
         app.MapPost(EndpointPath.Logout, (
-            ISignOutService signOutService,
+            [FromServices] ISignOutService signOutService,
             CancellationToken cancellationToken) =>
         {
             return signOutService.SignOutAsync(cancellationToken);
+        })
+        .RequireAuthorization();
+
+        app.MapPost(EndpointPath.Register, async (
+            HttpContext context,
+            [FromBody] CreateUserInput input,
+            [FromServices] IAccountService accountService,
+            CancellationToken cancellationToken) =>
+        {
+            var result = await accountService.CreateUserAsync(input,
+                cancellationToken);
+
+            return result switch
+            {
+                { Succeeded: true } => Results.Ok(),
+                { IsConflicted: true } => Results.Conflict("User already exists."),
+                { Errors: { } errors } => Results.BadRequest(new ValidationProblemDetails
+                {
+                    Title = "User creation failed",
+                    Errors = errors.ToDictionary(
+                            error => error.Code,
+                            error => new[] { error.Description })
+                }),
+                _ => Results.BadRequest("User creation failed.")
+            };
         });
     }
 }

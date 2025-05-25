@@ -1,16 +1,15 @@
 ﻿using Meets.Common.Domain;
 using Meets.Common.Persistence.MongoDb;
+using Meets.Common.Persistence.MongoDb.Configs;
 using Meets.Scheduler.Activities;
 using Meets.Scheduler.Polls;
 using Meets.Scheduler.Votes;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
-using MongoDB.Driver;
 
 namespace Meets.Scheduler;
 
@@ -29,8 +28,8 @@ public static class Registrations
         .AddTransient<IReadOnlyRepository<Vote, Guid>, VoteRepository>();
 
     private static void RegisterMaps() => new ClassMapRegistry()
-        .AddMap(new EntityConfig())
-        .AddMap(new AggregateRootConfig())
+        .AddMap(new EntityGuidConfig())
+        .AddMap(new AggregateGuidRootConfig())
         .AddMap(new ActivityConfig())
         .AddMap(new PollConfig())
         .AddMap(new VoteConfig())

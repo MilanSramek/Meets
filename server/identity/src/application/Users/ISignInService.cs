@@ -1,11 +1,10 @@
 using Microsoft.AspNetCore.Identity;
 
-namespace Meets.Identity;
+namespace Meets.Identity.Users;
 
 public interface ISignInService
 {
     public Task<SignInResult> PasswordSignInAsync(
-        string userName,
-        string password,
+        SignInUserInput input,
         CancellationToken cancellationToken);
 }

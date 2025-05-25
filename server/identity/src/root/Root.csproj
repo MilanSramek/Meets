@@ -5,6 +5,7 @@
   </ItemGroup>
   
   <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\infrastructure\Infrastructure.csproj" />
     <ProjectReference Include="..\persistence\mongodb\Persistence.MongoDb.csproj" />
     <ProjectReference Include="..\presentation\rest\Presentation.Rest.csproj" />
   </ItemGroup>

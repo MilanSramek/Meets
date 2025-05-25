@@ -1,40 +1,43 @@
 using Meets.Common.Domain;
-using Meets.Identity.ApplicationUsers;
+using Meets.Identity.Users;
 
 using Microsoft.AspNetCore.Identity;
 
 namespace Meets.Identity.Core;
 
-internal sealed class UserStore : IUserStore<ApplicationUser>
+internal sealed class UserStore :
+    IUserStore<User>,
+    IUserPasswordStore<User>,
+    IUserEmailStore<User>
 {
-    private readonly IApplicationUserRepository _repository;
+    private readonly IUserRepository _repository;
 
-    public UserStore(IApplicationUserRepository repository)
+    public UserStore(IUserRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task<IdentityResult> CreateAsync(ApplicationUser user,
+    public async Task<IdentityResult> CreateAsync(User user,
         CancellationToken cancellationToken)
     {
         await _repository.InsertAsync(cancellationToken, user);
         return IdentityResult.Success;
     }
 
-    public async Task<IdentityResult> DeleteAsync(ApplicationUser user,
+    public async Task<IdentityResult> DeleteAsync(User user,
         CancellationToken cancellationToken)
     {
         await _repository.DeleteAsync(cancellationToken, user);
         return IdentityResult.Success;
     }
 
-    public async Task<ApplicationUser?> FindByIdAsync(string userId,
+    public async Task<User?> FindByIdAsync(string userId,
         CancellationToken cancellationToken)
     {
         return await _repository.GetAsync(Guid.Parse(userId), cancellationToken);
     }
 
-    public Task<ApplicationUser?> FindByNameAsync(string normalizedUserName,
+    public Task<User?> FindByNameAsync(string normalizedUserName,
         CancellationToken cancellationToken)
     {
         return _repository
@@ -43,45 +46,114 @@ internal sealed class UserStore : IUserStore<ApplicationUser>
                 cancellationToken);
     }
 
-    public async Task<IdentityResult> UpdateAsync(ApplicationUser user,
+    public async Task<IdentityResult> UpdateAsync(User user,
         CancellationToken cancellationToken)
     {
         await _repository.UpdateAsync(cancellationToken, user);
         return IdentityResult.Success;
     }
 
-    public Task<string?> GetNormalizedUserNameAsync(ApplicationUser user,
+    public Task<string?> GetNormalizedUserNameAsync(User user,
         CancellationToken _)
     {
         return Task.FromResult<string?>(user.NormalizedUserName);
     }
 
-    public Task<string> GetUserIdAsync(ApplicationUser user,
+    public Task<string> GetUserIdAsync(User user,
         CancellationToken _)
     {
         return Task.FromResult(user.Id.ToString());
     }
 
-    public Task<string?> GetUserNameAsync(ApplicationUser user,
+    public Task<string?> GetUserNameAsync(User user,
         CancellationToken _)
     {
         return Task.FromResult<string?>(user.UserName);
     }
 
-    public Task SetNormalizedUserNameAsync(ApplicationUser user,
-        string? normalizedName, CancellationToken _)
+    public Task SetNormalizedUserNameAsync(User _1, string? _2,
+        CancellationToken _3)
     {
-        user.SetNormalizedUserName(normalizedName
-            ?? throw new InvalidOperationException("Normalized user name cannot be null."));
         return Task.CompletedTask;
     }
 
-    public Task SetUserNameAsync(ApplicationUser user,
-        string? userName,
+    public Task SetUserNameAsync(User _1, string? _2, CancellationToken _3)
+    {
+        throw new InvalidOperationException("User name cannot be changed.");
+    }
+
+    public Task SetPasswordHashAsync(
+        User user,
+        string? passwordHash,
         CancellationToken _)
     {
-        user.SetUserName(userName
-            ?? throw new InvalidOperationException("User name cannot be null."));
+        ArgumentNullException.ThrowIfNull(user);
+        if (string.IsNullOrWhiteSpace(passwordHash))
+        {
+            throw new InvalidOperationException("Password hash cannot be null or empty.");
+        }
+        user.SetPasswordHash(passwordHash);
+
+        return Task.CompletedTask;
+    }
+
+    public Task<string?> GetPasswordHashAsync(
+        User user,
+        CancellationToken _)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+        return Task.FromResult<string?>(user.PasswordHash);
+    }
+
+    public Task<bool> HasPasswordAsync(
+        User user,
+        CancellationToken _)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+        return Task.FromResult(user.PasswordHash is { });
+    }
+
+    public Task SetEmailAsync(User user, string? email, CancellationToken _)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+        user.SetEmail(email);
+        return Task.CompletedTask;
+    }
+
+    public Task<string?> GetEmailAsync(User user, CancellationToken _)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+        return Task.FromResult(user.Email);
+    }
+
+    public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken _)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken _)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task<User?> FindByEmailAsync(string normalizedEmail,
+        CancellationToken cancellationToken)
+    {
+        return _repository
+            .FirstOrDefaultAsync(
+                _ => _.NormalizedEmail == normalizedEmail,
+                cancellationToken);
+    }
+
+    public Task<string?> GetNormalizedEmailAsync(User user, CancellationToken _)
+    {
+        ArgumentNullException.ThrowIfNull(user);
+        return Task.FromResult(user.NormalizedEmail);
+    }
+
+    public Task SetNormalizedEmailAsync(User _1, string? _2,
+        CancellationToken _3)
+    {
         return Task.CompletedTask;
     }
 

@@ -3,9 +3,9 @@ using Meets.Common.Persistence.MongoDb;
 
 using MongoDB.Bson.Serialization;
 
-namespace Meets.Scheduler;
+namespace Meets.Common.Persistence.MongoDb.Configs;
 
-internal sealed class AggregateRootConfig : IClassMapConfiguration<AggregateRoot<Guid>>
+public sealed class AggregateGuidRootConfig : IClassMapConfiguration<AggregateRoot<Guid>>
 {
     public void Configure(BsonClassMap<AggregateRoot<Guid>> root)
     {

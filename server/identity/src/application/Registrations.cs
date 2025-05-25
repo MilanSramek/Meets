@@ -1,4 +1,5 @@
-using Meets.Identity.ApplicationUsers;
+using Meets.Identity.Users;
+using Meets.Identity.Core;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,29 +14,43 @@ public static class Registrations
         this IServiceCollection services)
     {
         services
-            .AddIdentityCore<ApplicationUser>(options =>
-            {
-                options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
-                options.User.RequireUniqueEmail = true;
+            .AddIdentity()
+            .AddUsers();
 
-                options.Lockout.AllowedForNewUsers = false;
+        return services;
+    }
 
-                // ToDo: Set proper options for signin
-                options.SignIn.RequireConfirmedAccount = false;
-                options.SignIn.RequireConfirmedEmail = false;
-                options.SignIn.RequireConfirmedPhoneNumber = false;
+    private static IServiceCollection AddIdentity(
+        this IServiceCollection services)
+    {
+        services
+          .AddIdentityCore<User>(options =>
+          {
+              options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
+              options.User.RequireUniqueEmail = false;
 
-                // ToDo: Set proper options for password
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequiredLength = 1;
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-            })
-            .AddDefaultTokenProviders()
-            .AddSignInManager<SignInManager>()
-            .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>();
+              options.Lockout.AllowedForNewUsers = false;
+
+              // ToDo: Set proper options for signin
+              options.SignIn.RequireConfirmedAccount = false;
+              options.SignIn.RequireConfirmedEmail = false;
+              options.SignIn.RequireConfirmedPhoneNumber = false;
+
+              // ToDo: Set proper options for password
+              options.Password.RequireNonAlphanumeric = false;
+              options.Password.RequiredLength = 1;
+              options.Password.RequireDigit = false;
+              options.Password.RequireLowercase = false;
+              options.Password.RequireUppercase = false;
+              options.Password.RequireNonAlphanumeric = false;
+          })
+          .AddDefaultTokenProviders()
+          .AddSignInManager<SignInManager>()
+          .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
+          .AddUserStore<UserStore>();
+
+        services
+            .AddSingleton<ILookupNormalizer, UserLookupNormalizer>();
 
         return services;
     }

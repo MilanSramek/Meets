@@ -1,4 +1,4 @@
-using Meets.Identity.ApplicationUsers;
+using Meets.Identity.Users;
 
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
@@ -13,7 +13,7 @@ using static OpenIddict.Abstractions.OpenIddictConstants;
 namespace Meets.Identity.Core;
 
 internal sealed class UserClaimsPrincipalFactory :
-    IUserClaimsPrincipalFactory<ApplicationUser>
+    IUserClaimsPrincipalFactory<User>
 {
     private readonly ClaimsIdentityOptions _options;
 
@@ -23,7 +23,7 @@ internal sealed class UserClaimsPrincipalFactory :
         _options = optionsAccessor.Value.ClaimsIdentity;
     }
 
-    public Task<ClaimsPrincipal> CreateAsync(ApplicationUser user)
+    public Task<ClaimsPrincipal> CreateAsync(User user)
     {
         ArgumentNullException.ThrowIfNull(user);
 

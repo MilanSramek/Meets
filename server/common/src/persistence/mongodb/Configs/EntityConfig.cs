@@ -1,12 +1,11 @@
 ﻿using Meets.Common.Domain;
-using Meets.Common.Persistence.MongoDb;
 
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.IdGenerators;
 
-namespace Meets.Scheduler;
+namespace Meets.Common.Persistence.MongoDb.Configs;
 
-internal sealed class EntityConfig : IClassMapConfiguration<Entity<Guid>>
+public sealed class EntityGuidConfig : IClassMapConfiguration<Entity<Guid>>
 {
     public void Configure(BsonClassMap<Entity<Guid>> entity)
     {
