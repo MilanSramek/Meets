@@ -1,0 +1,7 @@
+<Project>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="HotChocolate.Fusion" Version="15.1.5" />
+  </ItemGroup>
+</Project>

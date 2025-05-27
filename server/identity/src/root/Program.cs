@@ -30,7 +30,8 @@ try
     }
 
     services
-        .AddPresentation()
+        .AddRestPresentation()
+        .AddGraphQLPresentation()
         .AddApplication()
         .AddPersistence()
         .AddInfrastructure();

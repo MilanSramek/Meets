@@ -12,4 +12,5 @@
   <Project Path="src/persistence/mongodb/Persistence.MongoDb.csproj" />
   <Project Path="src/presentation/graphql/Presentation.GraphQL.csproj" />
   <Project Path="src/root/Root.csproj" />
+  <Project Path="src/graph-exporter/GraphExporter.csproj" />
 </Solution>

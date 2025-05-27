@@ -1,6 +1,5 @@
 using Meets.Common.Infrastructure;
 using Meets.Common.Persistence.MongoDb;
-using Meets.Scheduler;
 
 using Serilog;
 

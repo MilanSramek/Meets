@@ -6,7 +6,7 @@ namespace Meets.Identity;
 
 public static class Registrations
 {
-    public static IServiceCollection AddPresentation(
+    public static IServiceCollection AddRestPresentation(
         this IServiceCollection services)
     {
         services
