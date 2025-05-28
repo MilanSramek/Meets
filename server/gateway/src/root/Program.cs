@@ -18,13 +18,10 @@ try
         .AddDefaultLogger();
 
     builder.Services
-        .AddHttpClient("Try")
-        .AddDefaultLogger();
-
+        .AddGraphQLServer();
     builder.Services
         .AddFusionGatewayServer(disableDefaultSecurity: true)
-        .ConfigureFromFile("Gateway.fgp")
-        // Note: AllowQueryPlan is enabled for demonstration purposes. Disable in production environments.
+        .ConfigureFromFile("gateway.fgp")
         .ModifyFusionOptions(_ =>
         {
             _.AllowQueryPlan = true;
@@ -37,14 +34,6 @@ try
     var app = builder.Build();
 
     app.MapGraphQL();
-    app.MapGet("/try", async (HttpContext context) =>
-    {
-        var client = context.RequestServices.GetRequiredService<IHttpClientFactory>().CreateClient("Try");
-        var response = await client.GetAsync("http://localhost:8081/graphql?query={__typename}");
-        response.EnsureSuccessStatusCode();
-        await context.Response.WriteAsync(await response.Content.ReadAsStringAsync());
-    });
-
     await app.RunAsync();
 }
 catch (Exception ex)
