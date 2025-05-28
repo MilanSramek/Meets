@@ -1,5 +1,5 @@
 {
-  "subgraph": "Products",
+  "subgraph": "Identity",
   "http": {
     "baseAddress": "http://identity/graphql"
   }

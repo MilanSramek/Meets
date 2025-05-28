@@ -59,7 +59,7 @@ try
     }
 
     app.MapAuthorityEndpoints();
-
+    app.MapGraphQL("/graphql");
     await app.RunAsync();
 }
 catch (Exception ex)

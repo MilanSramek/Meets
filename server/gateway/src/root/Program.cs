@@ -8,6 +8,7 @@ builder.Services
     // Note: AllowQueryPlan is enabled for demonstration purposes. Disable in production environments.
     .ModifyFusionOptions(x => x.AllowQueryPlan = true);
 
+builder.WebHost.UseUrls("http://*:80");
 var app = builder.Build();
 
 app.MapGraphQL();

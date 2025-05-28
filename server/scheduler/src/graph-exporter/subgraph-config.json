@@ -1,6 +1,6 @@
 {
-  "subgraph": "Products",
+  "subgraph": "Scheduler",
   "http": {
-    "baseAddress": "http://identity/graphql"
+    "baseAddress": "http://scheduler/graphql"
   }
 }
