@@ -11,6 +11,17 @@
       ],
       "problemMatcher": "$msCompile",
       "group": "build"
+    },
+    {
+      "label": "Build Gateway Root",
+      "command": "dotnet",
+      "type": "process",
+      "args": [
+        "build",
+        "${workspaceFolder}/server/gateway/src/root/Root.csproj"
+      ],
+      "problemMatcher": "$msCompile",
+      "group": "build"
     }
   ]
 }

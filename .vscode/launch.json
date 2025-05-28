@@ -6,6 +6,12 @@
       "type": "dotnet",
       "request": "launch",
       "projectPath": "${workspaceFolder}/server/identity/src/root/Root.csproj",
+    },
+    {
+      "name": "Gateway - Debug",
+      "type": "dotnet",
+      "request": "launch",
+      "projectPath": "${workspaceFolder}/server/gateway/src/root/Root.csproj",
     }
   ]
 }
