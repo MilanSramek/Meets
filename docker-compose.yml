@@ -21,6 +21,8 @@ services:
       dockerfile: server/identity/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
+      - db__Username=admin
+      - db__Password=admin
     networks:
       - meets-network
     ports:
@@ -51,8 +53,6 @@ services:
       dockerfile: server/gateway/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - db__Username=admin
-      - db__Password=admin
     networks:
       - meets-network
     ports:
