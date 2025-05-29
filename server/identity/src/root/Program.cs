@@ -45,9 +45,7 @@ try
         .Bind(configuration.GetSection("db"))
         .ValidateDataAnnotations();
 
-    builder.WebHost.UseUrls("http://*:80");
     var app = builder.Build();
-
 
     app.UseSerilogRequestLogging();
     app.UseForwardedHeaders();

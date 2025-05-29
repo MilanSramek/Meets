@@ -1,7 +1,7 @@
 services:
-  mongo:
+  database:
     image: mongo:latest
-    container_name: mongo
+    container_name: database
     restart: always
     ports:
       - "27017:27017"
@@ -28,7 +28,7 @@ services:
     ports:
       - "8081:80"
     depends_on:
-      - mongo
+      - database
 
   scheduler:
     container_name: scheduler
@@ -44,7 +44,7 @@ services:
     ports:
       - "8082:80"
     depends_on:
-      - mongo
+      - database
   
   gateway:
     container_name: gateway

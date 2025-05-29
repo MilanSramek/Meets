@@ -45,7 +45,7 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /app
 RUN dotnet publish "server/gateway/src/root/Root.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
-COPY ["server/gateway/src/root/gateway.fgp","/app/publish"]
+COPY ["server/gateway/src/root/Gateway.fgp","/app/publish"]
 
 # This stage is used in production or when running from VS in regular mode (Default when not using the Debug configuration)
 FROM base AS final

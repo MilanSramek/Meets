@@ -13,27 +13,31 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services
+    var services = builder.Services;
+    services
         .AddHttpClient("Fusion")
         .AddDefaultLogger();
 
-    builder.Services
+    services
         .AddGraphQLServer();
-    builder.Services
+    services
         .AddFusionGatewayServer(disableDefaultSecurity: true)
-        .ConfigureFromFile("gateway.fgp")
+        .ConfigureFromFile("Gateway.fgp")
         .ModifyFusionOptions(_ =>
         {
             _.AllowQueryPlan = true;
             _.IncludeDebugInfo = true;
         });
 
-    builder.Services.AddSingleton(new RequestCostOptions(100, 100, true, 10));
+    services
+        .AddReverseProxy()
+        .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
 
-    builder.WebHost.UseUrls("http://*:80");
     var app = builder.Build();
 
     app.MapGraphQL();
+    app.MapReverseProxy();
+    
     await app.RunAsync();
 }
 catch (Exception ex)
