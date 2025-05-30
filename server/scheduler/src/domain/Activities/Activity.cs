@@ -61,6 +61,7 @@ public sealed class Activity : AggregateRoot<Guid>, IWithVersion
     private static class Error
     {
         public static BusinessException NameIsRequired() => new(
+            "ACTIVITY_NAME_REQUIRED",
             "Activity name cannot be white space or empty.");
     }
 }

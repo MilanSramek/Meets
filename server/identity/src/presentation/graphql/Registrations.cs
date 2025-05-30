@@ -16,7 +16,8 @@ public static class Registrations
             .AddType<QueryType>()
             // .AddType<MutationType>()
             .ModifyOptions(_ => _.DefaultBindingBehavior = BindingBehavior.Explicit)
-            .AddDiagnosticEventListener<ErrorLogger>();
+            .AddDiagnosticEventListener<ErrorLogger>()
+            .AddErrorFilter<ErrorFilter>();
 
         return services;
     }
