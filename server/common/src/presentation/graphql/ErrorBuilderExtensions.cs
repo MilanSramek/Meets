@@ -6,12 +6,13 @@ namespace Meets.Common.Presentation.GraphQL;
 
 internal static class ErrorBuilderExtensions
 {
-    public static IErrorBuilder SetExtensions(this IErrorBuilder builder, IDictionary data)
+    public static IErrorBuilder SetExtensionsByExceptionData(this IErrorBuilder builder,
+        IDictionary exceptionData)
     {
         ArgumentNullException.ThrowIfNull(builder);
-        ArgumentNullException.ThrowIfNull(data);
+        ArgumentNullException.ThrowIfNull(exceptionData);
 
-        foreach (DictionaryEntry entry in data)
+        foreach (DictionaryEntry entry in exceptionData)
         {
             string? key = entry.Key.ToString();
             string? value = entry.Value switch

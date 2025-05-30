@@ -13,7 +13,7 @@ public sealed class ErrorFilter : IErrorFilter
             BusinessException exception => new ErrorBuilder()
                 .SetMessage(exception.Message)
                 .SetCode(exception.Code)
-                .SetExtensions(exception.Data)
+                .SetExtensionsByExceptionData(exception.Data)
                 .Build(),
             _ => error
         };
