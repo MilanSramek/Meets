@@ -1,6 +1,9 @@
 using Meets.Common.Infrastructure;
 using Meets.Common.Persistence.MongoDb;
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -44,20 +47,44 @@ try
         .Bind(configuration.GetSection("db"))
         .ValidateDataAnnotations();
 
+    services
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+        {
+            var authSection = configuration.GetRequiredSection("authentication");
+            options.Authority = authSection.GetValue<string>("authority");
+            options.Audience = authSection.GetValue<string>("audience");
+
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = false,
+                ValidateIssuer = false,
+                ValidateLifetime = false,
+                ValidateIssuerSigningKey = false,
+                ValidIssuer = authSection.GetValue<string>("authority"),
+            };
+
+            // Optional: disable HTTPS requirement during local development
+            options.RequireHttpsMetadata = false;
+        });
+    services.AddAuthorization();
+
     var app = builder.Build();
 
     app.Services.InitializeGraphQLPresentation();
-
-    app.UseSerilogRequestLogging();
-    app.UseForwardedHeaders();
-    app.UseRouting();
 
     if (app.Environment.IsDevelopment())
     {
         app.UseCors("AllowAllOrigins");
     }
 
-    app.MapGraphQL("/graphql");
+    app.UseSerilogRequestLogging();
+    app.UseForwardedHeaders();
+    app.UseRouting();
+    app.UseAuthentication();
+    app.UseAuthorization();
+
+    app.MapGraphQL();
     await app.RunAsync();
 }
 catch (Exception ex)

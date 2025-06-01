@@ -15,7 +15,28 @@ public static class Registrations
     {
         services
             .AddIdentity()
+            .AddOpenIddictServer()
             .AddUsers();
+
+        return services;
+    }
+
+    private static IServiceCollection AddOpenIddictServer(
+    this IServiceCollection services)
+    {
+        services.AddOpenIddict()
+            .AddServer(options => options
+                .RegisterScopes(
+                    Scopes.OpenId,
+                    Scopes.OfflineAccess,
+                    Scopes.Email,
+                    Scopes.Profile,
+                    Scopes.Roles)
+                .AllowPasswordFlow()
+                .AcceptAnonymousClients()
+                .DisableAccessTokenEncryption()
+                .AddDevelopmentEncryptionCertificate()
+                .AddDevelopmentSigningCertificate());
 
         return services;
     }

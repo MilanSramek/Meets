@@ -23,25 +23,13 @@ public static class Registrations
             {
                 options
                     .UseAspNetCore()
-                    .DisableTransportSecurityRequirement()
-                    .EnableTokenEndpointPassthrough()
-                    .EnableEndSessionEndpointPassthrough();
+                        .DisableTransportSecurityRequirement()
+                        .EnableTokenEndpointPassthrough()
+                        .EnableEndSessionEndpointPassthrough();
 
                 options
                     .SetTokenEndpointUris(EndpointPath.Token)
                     .SetEndSessionEndpointUris(EndpointPath.Logout);
-
-                options
-                    .RegisterScopes(Scopes.Email, Scopes.Profile, Scopes.Roles);
-
-                options
-                    .AllowPasswordFlow();
-                options
-                    .AcceptAnonymousClients();
-
-                options
-                    .AddDevelopmentEncryptionCertificate()
-                    .AddDevelopmentSigningCertificate();
             });
 
         return services;

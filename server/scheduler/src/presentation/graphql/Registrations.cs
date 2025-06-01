@@ -12,6 +12,7 @@ public static class Registrations
     {
         services
             .AddGraphQLServer()
+            .AddAuthorization()
             .AddInMemorySubscriptions()
             .AddQueryType<Query>()
             .AddMutationType<Mutation>()

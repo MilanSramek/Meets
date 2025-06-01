@@ -1,5 +1,3 @@
-using HotChocolate.CostAnalysis;
-
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()
@@ -16,17 +14,21 @@ try
     var services = builder.Services;
     services
         .AddHttpClient("Fusion")
+        .AddHttpMessageHandler<AuthForwardingHandler>() // ToDo: Rewrite to use RemoteContext
         .AddDefaultLogger();
+    services
+        .AddSingleton<AuthForwardingHandler>()
+        .AddHttpContextAccessor();
 
     services
         .AddGraphQLServer();
     services
-        .AddFusionGatewayServer(disableDefaultSecurity: true)
+        .AddFusionGatewayServer(disableDefaultSecurity: true) // ToDo: Remove in production
         .ConfigureFromFile("Gateway.fgp")
         .ModifyFusionOptions(_ =>
         {
             _.AllowQueryPlan = true;
-            _.IncludeDebugInfo = true;
+            _.IncludeDebugInfo = true; // ToDo: Remove in production
         });
 
     services
@@ -37,7 +39,7 @@ try
 
     app.MapGraphQL();
     app.MapReverseProxy();
-    
+
     await app.RunAsync();
 }
 catch (Exception ex)

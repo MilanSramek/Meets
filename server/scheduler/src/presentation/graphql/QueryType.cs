@@ -14,6 +14,7 @@ internal class QueryType : ObjectType<Query>
         descriptor
             .Field(_ => _.GetActivitiesAsync(default!, default!))
             .Type<NonNullType<ListType<NonNullType<ActivityType>>>>()
-            .Description("All activities.");
+            .Description("All activities.")
+            .Authorize();
     }
 }

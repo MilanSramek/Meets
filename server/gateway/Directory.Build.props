@@ -13,8 +13,8 @@
     <RootNamespace>Meets.Gateway</RootNamespace>
   </PropertyGroup>
 
-  <!-- <ItemGroup>
+  <ItemGroup>
     <Using Include="Meets.Gateway" />
-  </ItemGroup> -->
+  </ItemGroup>
 
 </Project>

@@ -1,4 +1,5 @@
 ﻿using Meets.Common.Presentation.GraphQL;
+
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Meets.Identity;
