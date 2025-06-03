@@ -1,6 +1,9 @@
 ﻿using Meets.Common.Domain;
 using Meets.Scheduler.Activities;
 
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
+
 namespace Meets.Scheduler;
 
 internal sealed class Query
@@ -14,12 +17,28 @@ internal sealed class Query
         return activity.MapToModel();
     }
 
-    // ToDo: Remove
     public async Task<IEnumerable<ActivityModel>> GetActivitiesAsync(
+        [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IReadOnlyRepository<Activity, Guid> activities,
+        [Service] ILogger<Query> logger,
         CancellationToken cancellationToken)
     {
-        var activity = await activities.ToListAsync(cancellationToken);
+        // ToDo: IdentityContext
+        var user = httpContextAccessor.HttpContext?.User;
+        string? rawUserId = user?.FindFirst("sub")?.Value;
+        if (rawUserId is null || !Guid.TryParse(rawUserId, out var userId))
+        {
+            logger.LogError(
+                "Failed to parse user ID from claims: {RawUserId}",
+                rawUserId);
+            throw new GraphQLException(ErrorBuilder.New()
+                .SetMessage("You are not allowed to access this resource.")
+                .SetCode("FORBIDDEN")
+                .Build());
+        }
+        var activity = await activities
+            .Where(_ => _.OwnerId == userId)
+            .ToListAsync(cancellationToken);
         return activity
             .Select(ActivityMapper.MapToModel);
     }

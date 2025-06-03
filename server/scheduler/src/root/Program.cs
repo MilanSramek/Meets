@@ -23,6 +23,11 @@ try
             .Enrich.FromLogContext()
             .WriteTo.Console());
 
+    if (builder.Environment.IsEnvironment("Development.StandAlone"))
+    {
+        builder.Configuration.AddUserSecrets<Program>();
+    }
+
     if (builder.Environment.IsDevelopment())
     {
         services.AddCors(options => options.AddPolicy("AllowAllOrigins", _ => _
@@ -53,18 +58,19 @@ try
         {
             var authSection = configuration.GetRequiredSection("authentication");
             options.Authority = authSection.GetValue<string>("authority");
-            options.Audience = authSection.GetValue<string>("audience");
 
             options.TokenValidationParameters = new TokenValidationParameters
             {
-                ValidateAudience = false,
-                ValidateIssuer = false,
-                ValidateLifetime = false,
-                ValidateIssuerSigningKey = false,
-                ValidIssuer = authSection.GetValue<string>("authority"),
-            };
+                ValidateAudience = true,
+                ValidAudience = authSection.GetValue<string>("audience"),
 
-            // Optional: disable HTTPS requirement during local development
+                ValidateLifetime = true,
+
+                ValidateIssuer = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = authSection.GetValue<string>("issuer"),
+            };
+            options.MapInboundClaims = false;
             options.RequireHttpsMetadata = false;
         });
     services.AddAuthorization();

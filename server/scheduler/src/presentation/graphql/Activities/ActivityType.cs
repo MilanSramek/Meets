@@ -20,6 +20,9 @@ internal sealed class ActivityType : ObjectType<ActivityModel>
             .Field(_ => _.Description)
             .Type<StringType>();
         descriptor
+            .Field(_ => _.OwnerId)
+            .Type<NonNullType<UuidType>>();
+        descriptor
             .Field<ActivityResolver>(_ => _.GetPollAsync(default!, default!, default))
             .Type<NonNullType<PollType>>();
     }

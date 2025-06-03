@@ -1,8 +1,10 @@
 ﻿namespace Meets.Scheduler.Activities;
 
-public sealed class CreateActivityInputType : InputObjectType<CreateActivityInput>
+internal sealed class CreateActivityRequestType
+    : InputObjectType<CreateActivityRequest>
 {
-    protected override void Configure(IInputObjectTypeDescriptor<CreateActivityInput> descriptor)
+    protected override void Configure(
+        IInputObjectTypeDescriptor<CreateActivityRequest> descriptor)
     {
         descriptor
             .Name("CreateActivityInput");

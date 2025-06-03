@@ -22,8 +22,7 @@ internal sealed class SignInManager : SignInManager<User>
     private readonly FrozenSet<string> _scopes = FrozenSet.ToFrozenSet(
     [
         Scopes.OpenId,
-        Scopes.Email,
-        Scopes.Profile,
+        Scopes.OfflineAccess,
         Scopes.Roles
     ]);
 

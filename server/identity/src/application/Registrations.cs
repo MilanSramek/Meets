@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
 using static OpenIddict.Abstractions.OpenIddictConstants;
+using static OpenIddict.Server.OpenIddictServerEvents;
+using OpenIddict.Abstractions;
 
 namespace Meets.Identity;
 
@@ -22,21 +24,22 @@ public static class Registrations
     }
 
     private static IServiceCollection AddOpenIddictServer(
-    this IServiceCollection services)
+        this IServiceCollection services)
     {
         services.AddOpenIddict()
             .AddServer(options => options
                 .RegisterScopes(
                     Scopes.OpenId,
                     Scopes.OfflineAccess,
-                    Scopes.Email,
-                    Scopes.Profile,
                     Scopes.Roles)
                 .AllowPasswordFlow()
+                .AllowRefreshTokenFlow()
                 .AcceptAnonymousClients()
                 .DisableAccessTokenEncryption()
                 .AddDevelopmentEncryptionCertificate()
-                .AddDevelopmentSigningCertificate());
+                .AddDevelopmentSigningCertificate()
+                .AddEventHandler<ProcessSignInContext>(builder => builder
+                    .UseSingletonHandler<SignInHandler>()));
 
         return services;
     }

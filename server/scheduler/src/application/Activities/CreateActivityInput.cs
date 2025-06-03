@@ -3,5 +3,6 @@
 public sealed record CreateActivityInput
 (
     string Name,
-    string? Description
+    string? Description,
+    Guid? OwnerId
 );

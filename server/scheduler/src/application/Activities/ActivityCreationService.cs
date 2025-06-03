@@ -27,6 +27,7 @@ internal sealed class ActivityCreationService : IActivityCreationService
             (input, activity) =>
             {
                 activity.SetDescription(input.Description);
+                activity.SetOwner(input.OwnerId);
             },
             input,
             cancellationToken);

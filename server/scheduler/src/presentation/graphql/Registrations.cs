@@ -20,7 +20,7 @@ public static class Registrations
             .AddType<QueryType>()
             .AddType<MutationType>()
             .AddType<ActivityType>()
-            .AddType<UpdateActivityInputType>()
+            .AddType<UpdateActivityRequestType>()
             .ModifyOptions(_ => _.DefaultBindingBehavior = BindingBehavior.Explicit)
             .AddDiagnosticEventListener<ErrorLogger>()
             .AddErrorFilter<ErrorFilter>();
@@ -28,6 +28,9 @@ public static class Registrations
         services
             .AddActivityWatch()
             .AddPollWatch();
+
+        services
+            .AddHttpContextAccessor();
 
         return services;
     }
