@@ -2,6 +2,6 @@
 
 public interface IVoteUpdateService
 {
-    public Task<VoteModel> UpdateVoteAsync(Guid id, IEnumerable<CreateUpdateVoteItemInput> items,
+    public Task<VoteModel> UpdateVoteAsync(Guid id, IEnumerable<CreateUpdateVoteItemModel> items,
         CancellationToken cancellationToken);
 }

@@ -15,7 +15,7 @@ internal sealed class VoteService : IVoteCreationService, IVoteUpdateService
             ?? throw new ArgumentNullException(nameof(unitOfWorkManager));
     }
 
-    public async Task<VoteModel> CreateVoteAsync(CreateVoteInput input,
+    public async Task<VoteModel> CreateVoteAsync(CreateVoteModel input,
         CancellationToken cancellationToken)
     {
         var vote = new Vote(input.PollId)
@@ -34,7 +34,7 @@ internal sealed class VoteService : IVoteCreationService, IVoteUpdateService
 
     public async Task<VoteModel> UpdateVoteAsync(
         Guid id,
-        IEnumerable<CreateUpdateVoteItemInput> items,
+        IEnumerable<CreateUpdateVoteItemModel> items,
         CancellationToken cancellationToken)
     {
         await using var unitOfWork = await _unitOfWorkManager.BeginAsync();

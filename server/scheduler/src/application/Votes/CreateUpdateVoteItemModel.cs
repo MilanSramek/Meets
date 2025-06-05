@@ -1,5 +1,5 @@
 ﻿namespace Meets.Scheduler.Votes;
 
-public sealed record CreateUpdateVoteItemInput(
+public sealed record CreateUpdateVoteItemModel(
     DateOnly Date,
     VoteItemStatement Statement);

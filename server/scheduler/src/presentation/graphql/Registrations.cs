@@ -20,7 +20,7 @@ public static class Registrations
             .AddType<QueryType>()
             .AddType<MutationType>()
             .AddType<ActivityType>()
-            .AddType<UpdateActivityRequestType>()
+            .AddType<UpdateActivityInputType>()
             .ModifyOptions(_ => _.DefaultBindingBehavior = BindingBehavior.Explicit)
             .AddDiagnosticEventListener<ErrorLogger>()
             .AddErrorFilter<ErrorFilter>();

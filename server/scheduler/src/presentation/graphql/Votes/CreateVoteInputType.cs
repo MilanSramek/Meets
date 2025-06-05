@@ -1,8 +1,8 @@
 ﻿namespace Meets.Scheduler.Votes;
 
-internal sealed class CreateVoteInputType : InputObjectType<CreateVoteInput>
+internal sealed class CreateVoteInputType : InputObjectType<CreateVoteModel>
 {
-    protected override void Configure(IInputObjectTypeDescriptor<CreateVoteInput> createVoteInput)
+    protected override void Configure(IInputObjectTypeDescriptor<CreateVoteModel> createVoteInput)
     {
         createVoteInput
             .Name("CreateVoteInput");

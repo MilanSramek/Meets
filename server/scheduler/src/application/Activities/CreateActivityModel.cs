@@ -1,6 +1,6 @@
 ﻿namespace Meets.Scheduler.Activities;
 
-public sealed record CreateActivityInput
+public sealed record CreateActivityModel
 (
     string Name,
     string? Description,

@@ -2,7 +2,7 @@
 
 namespace Meets.Scheduler.Activities;
 
-public sealed record UpdateActivityInput
+public sealed record UpdateActivityModel
 (
     Opt<string> Name,
     Opt<string?> Description

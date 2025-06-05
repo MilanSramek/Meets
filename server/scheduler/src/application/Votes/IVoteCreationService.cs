@@ -3,6 +3,6 @@
 public interface IVoteCreationService
 {
     public Task<VoteModel> CreateVoteAsync(
-        CreateVoteInput input,
+        CreateVoteModel input,
         CancellationToken cancellationToken);
 }

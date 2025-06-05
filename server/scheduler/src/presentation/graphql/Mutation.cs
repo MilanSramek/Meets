@@ -10,12 +10,12 @@ namespace Meets.Scheduler;
 internal sealed class Mutation
 {
     public async Task<ActivityModel> CreateActivityAsync(
-        CreateActivityRequest request,
+        CreateActivityInput request,
         [Service] IHttpContextAccessor httpContextAccessor,
         [Service] IActivityCreationService activityService,
         CancellationToken cancellationToken)
     {
-        CreateActivityInput input = new(
+        CreateActivityModel input = new(
             request.Name,
             request.Description,
             null);
@@ -47,18 +47,18 @@ internal sealed class Mutation
 
     public Task<ActivityModel> UpdateActivityAsync(
         Guid id,
-        UpdateActivityRequest request,
+        UpdateActivityInput request,
         [Service] IActivityUpdateService activityService,
         CancellationToken cancellationToken)
     {
-        var properInput = new UpdateActivityInput(
+        var properInput = new UpdateActivityModel(
             request.Name.ToOpt(),
             request.Description.ToOpt());
         return activityService.UpdateActivityAsync(id, properInput, cancellationToken);
     }
 
     public Task<VoteModel> AddVoteAsync(
-        CreateVoteInput input,
+        CreateVoteModel input,
         [Service] IVoteCreationService voteService,
         CancellationToken cancellationToken)
     {
@@ -67,7 +67,7 @@ internal sealed class Mutation
 
     public Task<VoteModel> UpdateVoteAsync(
         Guid id,
-        IEnumerable<CreateUpdateVoteItemInput> items,
+        IEnumerable<CreateUpdateVoteItemModel> items,
         [Service] IVoteUpdateService voteService,
         CancellationToken cancellationToken)
     {
