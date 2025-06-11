@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using static OpenIddict.Abstractions.OpenIddictConstants;
-
 namespace Meets.Identity;
 
 public static class Registrations
@@ -10,7 +8,20 @@ public static class Registrations
         this IServiceCollection services)
     {
         services
-            .AddOpenIddictServer();
+            .AddOpenIddictServer()
+            .AddOpenApi(options =>
+            {
+                options.AddDocumentTransformer((document, context, cancellationToken) =>
+                {
+                    document.Info = new()
+                    {
+                        Title = "Meets Identity API",
+                        Version = "v1",
+                        Description = "API for managing user identities."
+                    };
+                    return Task.CompletedTask;
+                });
+            });
 
         return services;
     }
@@ -21,11 +32,10 @@ public static class Registrations
         services.AddOpenIddict()
             .AddServer(options =>
             {
-                options
-                    .UseAspNetCore()
-                        .DisableTransportSecurityRequirement()
-                        .EnableTokenEndpointPassthrough()
-                        .EnableEndSessionEndpointPassthrough();
+                options.UseAspNetCore()
+                    .DisableTransportSecurityRequirement()
+                    .EnableTokenEndpointPassthrough()
+                    .EnableEndSessionEndpointPassthrough();
 
                 options
                     .SetTokenEndpointUris(EndpointPath.Token)

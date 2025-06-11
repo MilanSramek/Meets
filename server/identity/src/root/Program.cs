@@ -1,7 +1,9 @@
 using Meets.Common.Infrastructure;
+using Meets.Common.Infrastructure.Hosting;
 using Meets.Common.Infrastructure.Identity;
 using Meets.Common.Persistence.MongoDb;
 using Meets.Identity.Authorization;
+using Meets.Identity.RegisterEndpoints;
 
 using Microsoft.AspNetCore.Authorization;
 
@@ -31,7 +33,7 @@ try
         builder.Configuration.AddUserSecrets<Program>();
     }
 
-    if (builder.Environment.IsDevelopment())
+    if (builder.Environment.IsOneOfDevelopment())
     {
         services.AddCors(options => options.AddPolicy("AllowAllOrigins", _ => _
             .AllowAnyOrigin()
@@ -71,17 +73,22 @@ try
     });
     services.AddSingleton<IAuthorizationHandler, TheUserAuthorizationHandler>();
 
+    services.AddAntiforgery();
+
     var app = builder.Build();
 
-    if (app.Environment.IsDevelopment())
+    if (app.Environment.IsOneOfDevelopment())
     {
         app.UseCors("AllowAllOrigins");
+        app.UseDeveloperExceptionPage();
+        app.MapOpenApi("/api/openapi/{documentName}.json");
     }
     app.UseSerilogRequestLogging();
     app.UseForwardedHeaders();
     app.UseRouting();
     app.UseAuthentication();
     app.UseAuthorization();
+    app.UseAntiforgery();
     app.UseIdentityContext();
     app.MapGraphQL();
     app.MapAuthorityEndpoints();
