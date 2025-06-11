@@ -30,27 +30,15 @@ internal sealed class IdentityContext : IIdentityContext
                 return _userId;
             }
 
-            if (_principal.Identity?.IsAuthenticated != true)
+            var userId = _principal.GetUserId();
+            if (userId.IsSuccess)
             {
-                _logger.LogDebug("User is not authenticated.");
-                return null;
+                _userId = userId.Value;
+                return _userId;
             }
 
-            var userIdClaim = _principal.FindFirst(IdentityClaims.UserId);
-            if (userIdClaim == null)
-            {
-                _logger.LogWarning("User ID claim is missing.");
-                return null;
-            }
-
-            if (Guid.TryParse(userIdClaim.Value, out var userId))
-            {
-                _userId = userId;
-                return userId;
-            }
-
-            _logger.LogWarning("User ID claim is invalid: {UserIdClaimValue}",
-                userIdClaim.Value);
+            var error = userId.Error;
+            _logger.LogWarning(error.Message, error.Data);
             return null;
         }
     }

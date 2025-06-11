@@ -2,7 +2,7 @@ namespace Meets.Identity;
 
 internal static class EndpointPath
 {
-    public const string Token = "/connect/token";
-    public const string Logout = "/connect/logout";
-    public const string Register = "/account/register";
+    public const string Token = "/api/connect/token";
+    public const string Logout = "/api/connect/logout";
+    public const string Register = "/api/account/register";
 }

@@ -1,5 +1,6 @@
 <Project>
   <ItemGroup>
+    <PackageVersion Include="CSharpFunctionalExtensions" Version="3.6.0" />
     <PackageVersion Include="HotChocolate.AspNetCore" Version="15.0.3" />
     <PackageVersion Include="HotChocolate.Execution" Version="15.0.3" />
     <PackageVersion Include="HotChocolate.Types" Version="15.0.3" />

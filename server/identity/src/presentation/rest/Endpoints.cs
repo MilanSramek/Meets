@@ -38,7 +38,7 @@ public static class Endpoints
             cancellationToken);
             if (result.Succeeded)
             {
-                return Results.Ok();
+                return Results.Forbid();
             }
 
             return Results.Forbid(

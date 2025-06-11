@@ -14,6 +14,7 @@ internal sealed class UserType : ObjectType<UserModel>
             .Type<NonNullType<UuidType>>();
         descriptor
             .Field(_ => _.UserName)
+            .Name("username")
             .Type<NonNullType<StringType>>()
             .Authorize("the-user", ApplyPolicy.AfterResolver);
         descriptor

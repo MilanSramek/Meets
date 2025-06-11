@@ -69,8 +69,7 @@ try
     {
         options.AddPolicy("the-user", policy => policy.AddRequirements(new TheUserRequirement()));
     });
-    // services.AddScoped<IAuthorizationHandler, TheUserHandler>();
-    services.AddSingleton<IAuthorizationHandler, TheUserHandler2>();
+    services.AddSingleton<IAuthorizationHandler, TheUserAuthorizationHandler>();
 
     var app = builder.Build();
 
