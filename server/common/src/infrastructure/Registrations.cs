@@ -1,4 +1,5 @@
 ﻿using Meets.Common.Domain;
+using Meets.Common.Infrastructure.Identity;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,7 +12,8 @@ public static class Registrations
         .AddIntegrationEventBus()
         .AddDomainEventBus()
         .AddSingleton<IDomainEventPublisher, DomainEventPublisher>()
-        .AddSingleton<IIntegrationEventPublisher, IntegrationEventPublisher>();
+        .AddSingleton<IIntegrationEventPublisher, IntegrationEventPublisher>()
+        .AddIdentityContext();
 
     private static IServiceCollection AddUnitOfWork(this IServiceCollection services) => services
         .AddTransient<IUnitOfWorkManager, UnitOfWorkManager>()

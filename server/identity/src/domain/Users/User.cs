@@ -1,7 +1,5 @@
 ﻿using Meets.Common.Domain;
 
-using System.Diagnostics.CodeAnalysis;
-
 namespace Meets.Identity.Users;
 
 public class User : AggregateRoot<Guid>
@@ -17,7 +15,7 @@ public class User : AggregateRoot<Guid>
     /// <summary>
     /// Gets or sets a salted and hashed representation of the password for this user.
     /// </summary>
-    public string PasswordHash { get; private set; }
+    public string? PasswordHash { get; private set; }
 
     /// <summary>
     /// A random value that must change whenever a users credentials change (password changed, login removed)
@@ -29,6 +27,8 @@ public class User : AggregateRoot<Guid>
     /// </summary>
     public string ConcurrencyStamp { get; private set; }
 
+    public string? Name { get; private set; }
+
     public User(string userName)
     {
         UserName = userName ?? throw new ArgumentNullException(nameof(userName));
@@ -36,6 +36,11 @@ public class User : AggregateRoot<Guid>
 
         SecurityStamp = Guid.NewGuid().ToString();
         UpdateConcurrencyStamp();
+    }
+
+    public void SetName(string? name)
+    {
+        Name = name;
     }
 
     public void SetPasswordHash(string value)
@@ -49,7 +54,9 @@ public class User : AggregateRoot<Guid>
     public void SetEmail(string? value)
     {
         Email = value;
-        NormalizedEmail = NormalizeEmail(value);
+        NormalizedEmail = value is { }
+            ? NormalizeEmail(value)
+            : null;
         UpdateConcurrencyStamp();
     }
 
@@ -64,11 +71,9 @@ public class User : AggregateRoot<Guid>
         return value.Normalize().ToLowerInvariant();
     }
 
-    [return: NotNullIfNotNull(nameof(value))]
-    public static string? NormalizeEmail(string? value)
+    public static string NormalizeEmail(string value)
     {
-        return value is { }
-            ? value.Normalize().ToLowerInvariant()
-            : null;
+        ArgumentNullException.ThrowIfNull(value);
+        return value.Normalize().ToLowerInvariant();
     }
 }

@@ -102,7 +102,7 @@ internal sealed class UserStore :
         CancellationToken _)
     {
         ArgumentNullException.ThrowIfNull(user);
-        return Task.FromResult<string?>(user.PasswordHash);
+        return Task.FromResult(user.PasswordHash);
     }
 
     public Task<bool> HasPasswordAsync(

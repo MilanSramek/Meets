@@ -1,5 +1,11 @@
 using Meets.Common.Infrastructure;
+using Meets.Common.Infrastructure.Identity;
 using Meets.Common.Persistence.MongoDb;
+using Meets.Identity.Authorization;
+
+using Microsoft.AspNetCore.Authorization;
+
+using OpenIddict.Validation.AspNetCore;
 
 using Serilog;
 
@@ -20,6 +26,10 @@ try
             .Enrich.FromLogContext()
             .WriteTo.Console());
 
+    if (builder.Environment.IsEnvironment("Development.StandAlone"))
+    {
+        builder.Configuration.AddUserSecrets<Program>();
+    }
 
     if (builder.Environment.IsDevelopment())
     {
@@ -40,24 +50,43 @@ try
     configuration
         .AddKeyPerFile("/run/secrets", optional: true); // docker secret
 
-    services
-        .AddOptions<MongoClientDbOptions>()
+    services.AddOptions<MongoClientDbOptions>()
         .Bind(configuration.GetSection("db"))
         .ValidateDataAnnotations();
 
-    var app = builder.Build();
+    services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme;
+    });
+    services.AddOpenIddict()
+        .AddValidation(options =>
+        {
+            options.UseLocalServer();
+            options.UseAspNetCore();
+        });
+    services.AddAuthorization(options =>
+    {
+        options.AddPolicy("the-user", policy => policy.AddRequirements(new TheUserRequirement()));
+    });
+    // services.AddScoped<IAuthorizationHandler, TheUserHandler>();
+    services.AddSingleton<IAuthorizationHandler, TheUserHandler2>();
 
-    app.UseSerilogRequestLogging();
-    app.UseForwardedHeaders();
-    app.UseRouting();
+    var app = builder.Build();
 
     if (app.Environment.IsDevelopment())
     {
         app.UseCors("AllowAllOrigins");
     }
-
+    app.UseSerilogRequestLogging();
+    app.UseForwardedHeaders();
+    app.UseRouting();
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.UseIdentityContext();
+    app.MapGraphQL();
     app.MapAuthorityEndpoints();
-    app.MapGraphQL("/graphql");
+
     await app.RunAsync();
 }
 catch (Exception ex)

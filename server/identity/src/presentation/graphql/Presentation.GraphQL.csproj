@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <ItemGroup>
     <PackageReference Include="HotChocolate.AspNetCore" />
+    <PackageReference Include="HotChocolate.AspNetCore.Authorization" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\common\src\presentation\graphql\Presentation.GraphQL.csproj" />

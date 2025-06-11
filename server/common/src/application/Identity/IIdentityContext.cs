@@ -1,4 +1,4 @@
-namespace Meets.Common.Domain;
+namespace Meets.Common.Application.Identity;
 
 public interface IIdentityContext
 {

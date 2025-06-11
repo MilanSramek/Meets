@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore;
 
 using OpenIddict.Abstractions;
@@ -9,8 +10,8 @@ using OpenIddict.Server.AspNetCore;
 
 using Meets.Identity.Users;
 
+
 using static OpenIddict.Abstractions.OpenIddictConstants;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Meets.Identity;
 

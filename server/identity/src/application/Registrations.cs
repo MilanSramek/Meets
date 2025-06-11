@@ -48,30 +48,34 @@ public static class Registrations
         this IServiceCollection services)
     {
         services
-          .AddIdentityCore<User>(options =>
-          {
-              options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
-              options.User.RequireUniqueEmail = false;
+            .AddIdentityCore<User>(options =>
+            {
+                options.ClaimsIdentity.UserIdClaimType = Claims.Subject;
+                options.ClaimsIdentity.UserNameClaimType = Claims.Name;
+                options.ClaimsIdentity.RoleClaimType = Claims.Role;
+                options.ClaimsIdentity.EmailClaimType = Claims.Email;
 
-              options.Lockout.AllowedForNewUsers = false;
+                options.User.RequireUniqueEmail = false;
 
-              // ToDo: Set proper options for signin
-              options.SignIn.RequireConfirmedAccount = false;
-              options.SignIn.RequireConfirmedEmail = false;
-              options.SignIn.RequireConfirmedPhoneNumber = false;
+                options.Lockout.AllowedForNewUsers = false;
 
-              // ToDo: Set proper options for password
-              options.Password.RequireNonAlphanumeric = false;
-              options.Password.RequiredLength = 1;
-              options.Password.RequireDigit = false;
-              options.Password.RequireLowercase = false;
-              options.Password.RequireUppercase = false;
-              options.Password.RequireNonAlphanumeric = false;
-          })
-          .AddDefaultTokenProviders()
-          .AddSignInManager<SignInManager>()
-          .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
-          .AddUserStore<UserStore>();
+                // ToDo: Set proper options for signin
+                options.SignIn.RequireConfirmedAccount = false;
+                options.SignIn.RequireConfirmedEmail = false;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+                // ToDo: Set proper options for password
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequiredLength = 1;
+                options.Password.RequireDigit = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+            })
+            .AddDefaultTokenProviders()
+            .AddSignInManager<SignInManager>()
+            .AddClaimsPrincipalFactory<UserClaimsPrincipalFactory>()
+            .AddUserStore<UserStore>();
 
         services
             .AddSingleton<ILookupNormalizer, UserLookupNormalizer>();

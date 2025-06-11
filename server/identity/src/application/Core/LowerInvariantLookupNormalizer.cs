@@ -22,5 +22,7 @@ internal sealed class UserLookupNormalizer : ILookupNormalizer
     }
 
     [return: NotNullIfNotNull(nameof(email))]
-    public string? NormalizeEmail(string? email) => User.NormalizeEmail(email);
+    public string? NormalizeEmail(string? email) => email is { }
+        ? User.NormalizeEmail(email)
+        : null;
 }

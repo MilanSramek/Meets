@@ -1,4 +1,5 @@
 using Meets.Common.Infrastructure;
+using Meets.Common.Infrastructure.Identity;
 using Meets.Common.Persistence.MongoDb;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -83,14 +84,14 @@ try
     {
         app.UseCors("AllowAllOrigins");
     }
-
     app.UseSerilogRequestLogging();
     app.UseForwardedHeaders();
     app.UseRouting();
     app.UseAuthentication();
     app.UseAuthorization();
-
+    app.UseIdentityContext();
     app.MapGraphQL();
+
     await app.RunAsync();
 }
 catch (Exception ex)

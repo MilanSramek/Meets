@@ -4,5 +4,6 @@ public sealed record UserModel
 (
     Guid Id,
     string UserName,
-    string? Email
+    string? Email,
+    string? Name
 );

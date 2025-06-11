@@ -17,8 +17,7 @@ internal sealed class UserConfig : IClassMapConfiguration<User>
             .SetIsRequired(true);
 
         user
-            .MapProperty(_ => _.PasswordHash)
-            .SetIsRequired(true);
+            .MapProperty(_ => _.PasswordHash);
 
         user
             .MapProperty(_ => _.SecurityStamp)

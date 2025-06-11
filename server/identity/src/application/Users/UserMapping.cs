@@ -9,6 +9,7 @@ public static class UserMapping
         return new UserModel(
             user.Id,
             user.UserName,
-            user.Email);
+            user.Email,
+            user.Name);
     }
 }

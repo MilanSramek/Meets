@@ -12,7 +12,7 @@ internal class QueryType : ObjectType<Query>
             .Description("Activity with a specified ID.");
 
         descriptor
-            .Field(_ => _.GetActivitiesAsync(default!, default!, default!, default!))
+            .Field(_ => _.GetActivitiesAsync(default!, default!, default!))
             .Type<NonNullType<ListType<NonNullType<ActivityType>>>>()
             .Description("All current user's activities.")
             .Authorize();

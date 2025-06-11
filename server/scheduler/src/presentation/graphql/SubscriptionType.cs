@@ -8,18 +8,18 @@ internal sealed class SubscriptionType : ObjectType
     protected override void Configure(IObjectTypeDescriptor descriptor)
     {
         descriptor
-            .Field("Activity")
+            .Field("activity")
             .Type<ActivityType>()
             .Argument("id", arg => arg.Type<NonNullType<UuidType>>())
             .Description("Subscribe to a activity by its identifier.")
             .Resolve(ctx => ctx.GetEventMessage<ActivityModel>())
             .Subscribe(ctx =>
             {
-                var ActivityId = ctx.ArgumentValue<Guid>("id");
+                var activityId = ctx.ArgumentValue<Guid>("id");
                 var cancellationToken = ctx.RequestAborted;
                 var watcherProvider = ctx.Service<ActivityWatcherProvider>();
 
-                return watcherProvider(ActivityId, cancellationToken);
+                return watcherProvider(activityId, cancellationToken);
             });
 
         descriptor
