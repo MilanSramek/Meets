@@ -3,7 +3,6 @@ using Meets.Common.Infrastructure.Hosting;
 using Meets.Common.Infrastructure.Identity;
 using Meets.Common.Persistence.MongoDb;
 using Meets.Identity.Authorization;
-using Meets.Identity.RegisterEndpoints;
 
 using Microsoft.AspNetCore.Authorization;
 

@@ -1,4 +1,5 @@
 ﻿using Meets.Scheduler.Polls;
+using Meets.Scheduler.Users;
 
 namespace Meets.Scheduler.Activities;
 
@@ -20,8 +21,11 @@ internal sealed class ActivityType : ObjectType<ActivityModel>
             .Field(_ => _.Description)
             .Type<StringType>();
         descriptor
-            .Field(_ => _.OwnerId)
-            .Type<NonNullType<UuidType>>();
+            .Field("owner")
+            .Resolve(ctx => ctx.Parent<ActivityModel>().OwnerId is { } ownerId
+                ? new UserModel(ownerId)
+                : null)
+            .Type<UserType>();
         descriptor
             .Field<ActivityResolver>(_ => _.GetPollAsync(default!, default!, default))
             .Type<NonNullType<PollType>>();

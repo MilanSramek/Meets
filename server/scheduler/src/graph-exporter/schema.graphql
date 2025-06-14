@@ -8,6 +8,7 @@ type Activity {
   id: UUID!
   name: String!
   description: String
+  owner: User @cost(weight: "10")
   poll: Poll! @cost(weight: "10")
 }
 
@@ -28,15 +29,19 @@ type Poll {
 type Query {
   "Activity with a specified ID."
   activity(id: UUID!): Activity! @cost(weight: "10")
-  "All activities."
-  activities: [Activity!]! @cost(weight: "10")
+  "All current user's activities."
+  activities: [Activity!]! @authorize @cost(weight: "10")
 }
 
 type SubscriptionType {
   "Subscribe to a activity by its identifier."
-  Activity(id: UUID!): Activity @cost(weight: "10")
+  activity(id: UUID!): Activity @cost(weight: "10")
   "Subscribe to a poll by its identifier."
   poll(id: UUID!): Poll @cost(weight: "10")
+}
+
+type User {
+  id: UUID!
 }
 
 type Vote {
@@ -69,6 +74,16 @@ input UpdateActivityInput {
   description: String
 }
 
+"Defines when a policy shall be executed."
+enum ApplyPolicy {
+  "Before the resolver was executed."
+  BEFORE_RESOLVER
+  "After the resolver was executed."
+  AFTER_RESOLVER
+  "The policy is applied in the validation step before the execution."
+  VALIDATION
+}
+
 enum VoteItemStatement {
   "Yes"
   YES
@@ -77,6 +92,9 @@ enum VoteItemStatement {
   "Not sure"
   MAYBE
 }
+
+"The authorize directive."
+directive @authorize("The name of the authorization policy that determines access to the annotated resource." policy: String "Roles that are allowed to access the annotated resource." roles: [String!] "Defines when when the authorize directive shall be applied.By default the authorize directives are applied during the validation phase." apply: ApplyPolicy! = BEFORE_RESOLVER) repeatable on OBJECT | FIELD_DEFINITION
 
 "The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."
 directive @cost("The `weight` argument defines what value to add to the overall cost for every appearance, or possible appearance, of a type, field, argument, etc." weight: String!) on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM | INPUT_FIELD_DEFINITION

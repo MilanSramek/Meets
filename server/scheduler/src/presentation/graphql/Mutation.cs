@@ -8,14 +8,14 @@ namespace Meets.Scheduler;
 internal sealed class Mutation
 {
     public async Task<ActivityModel> CreateActivityAsync(
-        CreateActivityInput request,
+        CreateActivityInput input,
         [Service] IIdentityContext identityContext,
         [Service] IActivityCreationService activityService,
         CancellationToken cancellationToken)
     {
         CreateActivityModel model = new(
-            request.Name,
-            request.Description,
+            input.Name,
+            input.Description,
             identityContext.UserId);
 
         return await activityService.CreateActivityAsync(model, cancellationToken);
@@ -23,13 +23,13 @@ internal sealed class Mutation
 
     public Task<ActivityModel> UpdateActivityAsync(
         Guid id,
-        UpdateActivityInput request,
+        UpdateActivityInput input,
         [Service] IActivityUpdateService activityService,
         CancellationToken cancellationToken)
     {
         var properInput = new UpdateActivityModel(
-            request.Name.ToOpt(),
-            request.Description.ToOpt());
+            input.Name.ToOpt(),
+            input.Description.ToOpt());
         return activityService.UpdateActivityAsync(id, properInput, cancellationToken);
     }
 

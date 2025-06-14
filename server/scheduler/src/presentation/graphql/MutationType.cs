@@ -11,7 +11,7 @@ internal class MutationType : ObjectType<Mutation>
             .Field(_ => _.CreateActivityAsync(default!, default!, default!, default!))
             .Name("createActivity")
             .Type<NonNullType<ActivityType>>()
-            .Argument("request", _ => _.Type<NonNullType<CreateActivityInputType>>())
+            .Argument("input", _ => _.Type<NonNullType<CreateActivityInputType>>())
             .Description("Creates a new activity.");
 
         descriptor

@@ -1,10 +1,8 @@
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Mvc;
 
-using Meets.Identity.Users;
 using Meets.Identity.TokenEndpoints;
 using Meets.Identity.RegisterEndpoints;
+using Meets.Identity.LogOutEndpoints;
 
 namespace Meets.Identity;
 
@@ -14,13 +12,6 @@ public static class Endpoints
     {
         app.MapTokenEndpoint();
         app.MapRegisterEndpoint();
-
-        app.MapPost(EndpointPath.Logout, (
-            [FromServices] ISignOutService signOutService,
-            CancellationToken cancellationToken) =>
-        {
-            return signOutService.SignOutAsync(cancellationToken);
-        })
-        .RequireAuthorization();
+        app.MapLogOutEndpoint();
     }
 }
