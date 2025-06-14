@@ -55,4 +55,4 @@ RUN dotnet publish "server/scheduler/src/root/Root.csproj" -c $BUILD_CONFIGURATI
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Root.dll"]
+ENTRYPOINT ["dotnet", "Meets.Scheduler.Root.dll"]

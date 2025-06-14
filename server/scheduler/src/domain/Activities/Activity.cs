@@ -6,6 +6,7 @@ public sealed class Activity : AggregateRoot<Guid>, IWithVersion
 
     public string Name { get; private set; }
     public string? Description { get; private set; }
+    public Guid? OwnerId { get; private set; }
     public int Version { get; private set; }
 
     private Activity()
@@ -48,6 +49,16 @@ public sealed class Activity : AggregateRoot<Guid>, IWithVersion
         return this;
     }
 
+    public Activity SetOwner(Guid? ownerId)
+    {
+        if (OwnerId != ownerId)
+        {
+            OwnerId = ownerId;
+            SetChanged();
+        }
+        return this;
+    }
+
     private void SetChanged()
     {
         if (!_changed)
@@ -61,6 +72,7 @@ public sealed class Activity : AggregateRoot<Guid>, IWithVersion
     private static class Error
     {
         public static BusinessException NameIsRequired() => new(
+            "ACTIVITY_NAME_REQUIRED",
             "Activity name cannot be white space or empty.");
     }
 }

@@ -2,6 +2,6 @@
 
 public interface IActivityCreationService
 {
-    public Task<ActivityModel> CreateActivityAsync(CreateActivityInput input,
+    public Task<ActivityModel> CreateActivityAsync(CreateActivityModel input,
         CancellationToken cancellationToken);
 }

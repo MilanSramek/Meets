@@ -6,7 +6,7 @@ public static class InsertRepositoryExtensions
         this IInsertRepository<TEntity, TId> repository,
         TEntity entity,
         CancellationToken cancellationToken)
-        where TEntity : AggregateRoot<TId>
+        where TEntity : IAggregateRoot<TId>
         where TId : notnull
     {
         return repository.InsertAsync(cancellationToken, entity);

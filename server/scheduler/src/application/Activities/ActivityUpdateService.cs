@@ -19,7 +19,7 @@ internal sealed class ActivityUpdateService : IActivityUpdateService
 
     public async Task<ActivityModel> UpdateActivityAsync(
         Guid id,
-        UpdateActivityInput input,
+        UpdateActivityModel input,
         CancellationToken cancellationToken)
     {
         await using var unitOfWork = await _unitOfWorkManager.BeginAsync();

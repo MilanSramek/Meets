@@ -17,7 +17,7 @@ internal sealed class ActivityCreationService : IActivityCreationService
             ?? throw new ArgumentNullException(nameof(unitOfWorkManager));
     }
 
-    public async Task<ActivityModel> CreateActivityAsync(CreateActivityInput input,
+    public async Task<ActivityModel> CreateActivityAsync(CreateActivityModel input,
         CancellationToken cancellationToken)
     {
         await using var unitOfWork = await _unitOfWorkManager.BeginAsync();
@@ -27,6 +27,7 @@ internal sealed class ActivityCreationService : IActivityCreationService
             (input, activity) =>
             {
                 activity.SetDescription(input.Description);
+                activity.SetOwner(input.OwnerId);
             },
             input,
             cancellationToken);

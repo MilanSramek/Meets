@@ -8,7 +8,7 @@ internal class MutationType : ObjectType<Mutation>
     protected override void Configure(IObjectTypeDescriptor<Mutation> descriptor)
     {
         descriptor
-            .Field(_ => _.CreateActivityAsync(default!, default!, default!))
+            .Field(_ => _.CreateActivityAsync(default!, default!, default!, default!))
             .Name("createActivity")
             .Type<NonNullType<ActivityType>>()
             .Argument("input", _ => _.Type<NonNullType<CreateActivityInputType>>())

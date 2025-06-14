@@ -1,6 +1,9 @@
 using Meets.Common.Infrastructure;
+using Meets.Common.Infrastructure.Identity;
 using Meets.Common.Persistence.MongoDb;
-using Meets.Scheduler;
+
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 using Serilog;
 
@@ -20,6 +23,11 @@ try
         .AddSerilog((services, config) => config
             .Enrich.FromLogContext()
             .WriteTo.Console());
+
+    if (builder.Environment.IsEnvironment("Development.StandAlone"))
+    {
+        builder.Configuration.AddUserSecrets<Program>();
+    }
 
     if (builder.Environment.IsDevelopment())
     {
@@ -45,17 +53,45 @@ try
         .Bind(configuration.GetSection("db"))
         .ValidateDataAnnotations();
 
-    builder.WebHost.UseUrls("http://*:80");
+    services
+        .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
+        {
+            var authSection = configuration.GetRequiredSection("authentication");
+            options.Authority = authSection.GetValue<string>("authority");
+
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidAudience = authSection.GetValue<string>("audience"),
+
+                ValidateLifetime = true,
+
+                ValidateIssuer = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = authSection.GetValue<string>("issuer"),
+            };
+            options.MapInboundClaims = false;
+            options.RequireHttpsMetadata = false;
+        });
+    services.AddAuthorization();
+
     var app = builder.Build();
 
     app.Services.InitializeGraphQLPresentation();
 
-    app.UseSerilogRequestLogging();
     if (app.Environment.IsDevelopment())
     {
         app.UseCors("AllowAllOrigins");
     }
-    app.MapGraphQL("/graphql");
+    app.UseSerilogRequestLogging();
+    app.UseForwardedHeaders();
+    app.UseRouting();
+    app.UseAuthentication();
+    app.UseAuthorization();
+    app.UseIdentityContext();
+    app.MapGraphQL();
+
     await app.RunAsync();
 }
 catch (Exception ex)

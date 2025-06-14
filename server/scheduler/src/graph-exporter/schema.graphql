@@ -1,0 +1,108 @@
+schema {
+  query: Query
+  mutation: Mutation
+  subscription: SubscriptionType
+}
+
+type Activity {
+  id: UUID!
+  name: String!
+  description: String
+  owner: User @cost(weight: "10")
+  poll: Poll! @cost(weight: "10")
+}
+
+type Mutation {
+  "Creates a new activity."
+  createActivity(input: CreateActivityInput!): Activity! @cost(weight: "10")
+  "Updates an activity with a specified ID."
+  updateActivity(id: UUID! input: UpdateActivityInput!): Activity! @cost(weight: "10")
+  addVote(input: CreateVoteInput!): Vote! @cost(weight: "10")
+  updateVote(items: [CreateUpdateVoteItemInput!]! id: UUID!): Vote! @cost(weight: "10")
+}
+
+type Poll {
+  id: UUID!
+  votes: [Vote!]! @cost(weight: "10")
+}
+
+type Query {
+  "Activity with a specified ID."
+  activity(id: UUID!): Activity! @cost(weight: "10")
+  "All current user's activities."
+  activities: [Activity!]! @authorize @cost(weight: "10")
+}
+
+type SubscriptionType {
+  "Subscribe to a activity by its identifier."
+  activity(id: UUID!): Activity @cost(weight: "10")
+  "Subscribe to a poll by its identifier."
+  poll(id: UUID!): Poll @cost(weight: "10")
+}
+
+type User {
+  id: UUID!
+}
+
+type Vote {
+  id: UUID!
+  items: [VoteItem!]!
+}
+
+type VoteItem {
+  date: Date!
+  statement: VoteItemStatement!
+}
+
+input CreateActivityInput {
+  name: String!
+  description: String
+}
+
+input CreateUpdateVoteItemInput {
+  date: ID!
+  statement: VoteItemStatement!
+}
+
+input CreateVoteInput {
+  pollId: UUID!
+  items: [CreateUpdateVoteItemInput!]!
+}
+
+input UpdateActivityInput {
+  name: String
+  description: String
+}
+
+"Defines when a policy shall be executed."
+enum ApplyPolicy {
+  "Before the resolver was executed."
+  BEFORE_RESOLVER
+  "After the resolver was executed."
+  AFTER_RESOLVER
+  "The policy is applied in the validation step before the execution."
+  VALIDATION
+}
+
+enum VoteItemStatement {
+  "Yes"
+  YES
+  "No"
+  NO
+  "Not sure"
+  MAYBE
+}
+
+"The authorize directive."
+directive @authorize("The name of the authorization policy that determines access to the annotated resource." policy: String "Roles that are allowed to access the annotated resource." roles: [String!] "Defines when when the authorize directive shall be applied.By default the authorize directives are applied during the validation phase." apply: ApplyPolicy! = BEFORE_RESOLVER) repeatable on OBJECT | FIELD_DEFINITION
+
+"The purpose of the `cost` directive is to define a `weight` for GraphQL types, fields, and arguments. Static analysis can use these weights when calculating the overall cost of a query or response."
+directive @cost("The `weight` argument defines what value to add to the overall cost for every appearance, or possible appearance, of a type, field, argument, etc." weight: String!) on SCALAR | OBJECT | FIELD_DEFINITION | ARGUMENT_DEFINITION | ENUM | INPUT_FIELD_DEFINITION
+
+"The `@specifiedBy` directive is used within the type system definition language to provide a URL for specifying the behavior of custom scalar definitions."
+directive @specifiedBy("The specifiedBy URL points to a human-readable specification. This field will only read a result for scalar types." url: String!) on SCALAR
+
+"The `Date` scalar represents an ISO-8601 compliant date type."
+scalar Date
+
+scalar UUID @specifiedBy(url: "https:\/\/tools.ietf.org\/html\/rfc4122")

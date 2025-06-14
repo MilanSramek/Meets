@@ -1,7 +1,7 @@
 services:
-  mongo:
+  database:
     image: mongo:latest
-    container_name: mongo
+    container_name: database
     restart: always
     ports:
       - "27017:27017"
@@ -14,18 +14,52 @@ services:
     networks:
       - meets-network
 
-  meets:
-    image: ghcr.io/milansramek/meets:latest
-    container_name: meets
+  identity:
+    container_name: identity
+    build:
+      context: .
+      dockerfile: server/identity/Dockerfile
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-    restart: unless-stopped
-    depends_on:
-      - mongo
-    ports:
-      - "80:80"
+      - db__Username=admin
+      - db__Password=admin
     networks:
       - meets-network
+    ports:
+      - "8081:80"
+    depends_on:
+      - database
+
+  scheduler:
+    container_name: scheduler
+    build:
+      context: .
+      dockerfile: server/scheduler/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - db__Username=admin
+      - db__Password=admin
+    networks:
+      - meets-network
+    ports:
+      - "8082:80"
+    depends_on:
+      - database
+  
+  gateway:
+    container_name: gateway
+    build:
+      context: .
+      dockerfile: server/gateway/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    networks:
+      - meets-network
+    ports:
+      - "80:80"
+    depends_on:
+      - identity
+      - scheduler
 
 networks:
   meets-network:

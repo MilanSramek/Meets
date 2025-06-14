@@ -1,4 +1,5 @@
-﻿using Meets.Common.Presentation.GraphQL;
+﻿using Meets.Common.Application.Identity;
+using Meets.Common.Presentation.GraphQL;
 using Meets.Scheduler.Activities;
 using Meets.Scheduler.Votes;
 
@@ -6,28 +7,34 @@ namespace Meets.Scheduler;
 
 internal sealed class Mutation
 {
-    public Task<ActivityModel> CreateActivityAsync(
+    public async Task<ActivityModel> CreateActivityAsync(
         CreateActivityInput input,
+        [Service] IIdentityContext identityContext,
         [Service] IActivityCreationService activityService,
         CancellationToken cancellationToken)
     {
-        return activityService.CreateActivityAsync(input, cancellationToken);
+        CreateActivityModel model = new(
+            input.Name,
+            input.Description,
+            identityContext.UserId);
+
+        return await activityService.CreateActivityAsync(model, cancellationToken);
     }
 
     public Task<ActivityModel> UpdateActivityAsync(
         Guid id,
-        UpdateActivityInterInput input,
+        UpdateActivityInput input,
         [Service] IActivityUpdateService activityService,
         CancellationToken cancellationToken)
     {
-        var properInput = new UpdateActivityInput(
+        var properInput = new UpdateActivityModel(
             input.Name.ToOpt(),
             input.Description.ToOpt());
         return activityService.UpdateActivityAsync(id, properInput, cancellationToken);
     }
 
     public Task<VoteModel> AddVoteAsync(
-        CreateVoteInput input,
+        CreateVoteModel input,
         [Service] IVoteCreationService voteService,
         CancellationToken cancellationToken)
     {
@@ -36,7 +43,7 @@ internal sealed class Mutation
 
     public Task<VoteModel> UpdateVoteAsync(
         Guid id,
-        IEnumerable<CreateUpdateVoteItemInput> items,
+        IEnumerable<CreateUpdateVoteItemModel> items,
         [Service] IVoteUpdateService voteService,
         CancellationToken cancellationToken)
     {

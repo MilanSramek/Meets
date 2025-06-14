@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web"><PropertyGroup>  <UserSecretsId>f09e0dee-77f2-471c-b577-05bfdc7d77d4</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Serilog.AspNetCore" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\infrastructure\Infrastructure.csproj" />
+    <ProjectReference Include="..\persistence\mongodb\Persistence.MongoDb.csproj" />
+    <ProjectReference Include="..\presentation\rest\Presentation.Rest.csproj" />
+    <ProjectReference Include="..\presentation\graphql\Presentation.GraphQL.csproj" />
+  </ItemGroup>
+</Project>

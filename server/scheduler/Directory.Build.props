@@ -13,4 +13,8 @@
     <RootNamespace>Meets.Scheduler</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Using Include="Meets.Scheduler" />
+  </ItemGroup>
+
 </Project>

@@ -6,5 +6,6 @@ public static class ActivityMapper
         activity.Id,
         activity.Name,
         activity.Description,
+        activity.OwnerId,
         activity.Version);
 }

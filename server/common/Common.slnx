@@ -1,0 +1,10 @@
+<Solution>
+    <Project Path="./src/application/Application.csproj" />
+    <Project Path="./src/domain/Domain.csproj" />
+    <Project Path="./src/infrastructure/Infrastructure.csproj" />
+    <Project Path="./src/persistence/mongodb/Persistence.MongoDb.csproj" />
+    <Project Path="./src/tools/Tools.csproj" />
+    <Project Path="./src/expansions/Expansions.csproj" />
+    <Project Path="./tests/expansions/Expansions_Tests.csproj" />
+    <Project Path="./src/presentation/graphql/Presentation.GraphQL.csproj" />
+</Solution>

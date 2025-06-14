@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="OpenIddict.AspNetCore" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common\src\application\Application.csproj" />
+    <ProjectReference Include="..\domain\Domain.csproj" />
+  </ItemGroup>
+</Project>

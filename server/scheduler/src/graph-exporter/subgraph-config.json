@@ -1,0 +1,6 @@
+{
+  "subgraph": "Scheduler",
+  "http": {
+    "baseAddress": "http://scheduler/graphql"
+  }
+}

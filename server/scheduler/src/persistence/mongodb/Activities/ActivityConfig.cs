@@ -18,5 +18,8 @@ internal sealed class ActivityConfig : IClassMapConfiguration<Activity>
         activity
             .MapProperty(_ => _.Version)
             .SetIsRequired(true);
+
+        activity
+            .MapProperty(_ => _.OwnerId);
     }
 }

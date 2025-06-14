@@ -6,7 +6,7 @@ public static class UpdateRepositoryExtensions
         this IUpdateRepository<TEntity, TId> repository,
         TEntity entity,
         CancellationToken cancellationToken)
-        where TEntity : AggregateRoot<TId>
+        where TEntity : IAggregateRoot<TId>
         where TId : notnull
     {
         return repository.UpdateAsync(cancellationToken, entity);

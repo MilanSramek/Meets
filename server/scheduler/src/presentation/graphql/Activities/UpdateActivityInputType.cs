@@ -1,8 +1,8 @@
 ﻿namespace Meets.Scheduler.Activities;
 
-internal sealed class UpdateActivityInputType : InputObjectType<UpdateActivityInterInput>
+internal sealed class UpdateActivityInputType : InputObjectType<UpdateActivityInput>
 {
-    protected override void Configure(IInputObjectTypeDescriptor<UpdateActivityInterInput> descriptor)
+    protected override void Configure(IInputObjectTypeDescriptor<UpdateActivityInput> descriptor)
     {
         descriptor
             .Name("UpdateActivityInput");

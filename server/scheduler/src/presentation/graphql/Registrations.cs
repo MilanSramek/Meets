@@ -12,6 +12,7 @@ public static class Registrations
     {
         services
             .AddGraphQLServer()
+            .AddAuthorization()
             .AddInMemorySubscriptions()
             .AddQueryType<Query>()
             .AddMutationType<Mutation>()
@@ -21,11 +22,15 @@ public static class Registrations
             .AddType<ActivityType>()
             .AddType<UpdateActivityInputType>()
             .ModifyOptions(_ => _.DefaultBindingBehavior = BindingBehavior.Explicit)
-            .AddDiagnosticEventListener<ErrorLogger>();
+            .AddDiagnosticEventListener<ErrorLogger>()
+            .AddErrorFilter<ErrorFilter>();
 
         services
             .AddActivityWatch()
             .AddPollWatch();
+
+        services
+            .AddHttpContextAccessor();
 
         return services;
     }

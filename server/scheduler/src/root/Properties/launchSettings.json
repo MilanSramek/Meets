@@ -1,22 +1,13 @@
 {
+  "$schema": "https://json.schemastore.org/launchsettings.json",
   "profiles": {
     "Meets": {
       "commandName": "Project",
       "launchBrowser": false,
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development.Standalone"
       },
-      "applicationUrl": "http://localhost:80"
-    },
-    "Container (Dockerfile)": {
-      "commandName": "Docker",
-      "launchBrowser": false,
-      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}",
-      "environmentVariables": {
-        "ASPNETCORE_HTTP_PORTS": "80"
-      },
-      "publishAllPorts": true,
-      "useSSL": true
+      "applicationUrl": "http://localhost:10082"
     }
   }
 }

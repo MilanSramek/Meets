@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/Common/">
+    <Project Path="../common/src/application/Application.csproj" />
+    <Project Path="../common/src/domain/Domain.csproj" />
+    <Project Path="../common/src/infrastructure/Infrastructure.csproj" />
+    <Project Path="../common/src/persistence/mongodb/Persistence.MongoDb.csproj" />
+    <Project Path="../common/src/tools/Tools.csproj" />
+    <Project Path="../common/src/expansions/Expansions.csproj" />
+    <Project Path="../common/src/presentation/graphql/Presentation.GraphQL.csproj" />
+  </Folder>
+  <Project Path="src/application/Application.csproj" />
+  <Project Path="src/domain/Domain.csproj" />
+  <Project Path="src/persistence/mongodb/Persistence.MongoDb.csproj" />
+  <Project Path="src/presentation/graphql/Presentation.GraphQL.csproj" />
+  <Project Path="src/root/Root.csproj" />
+  <Project Path="src/graph-exporter/GraphExporter.csproj" />
+</Solution>
