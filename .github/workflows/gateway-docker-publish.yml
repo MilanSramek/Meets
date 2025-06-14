@@ -20,3 +20,4 @@ jobs:
       REGISTRY: ghcr.io
       REPOSITORY: ${{ github.repository }}
       IMAGE_NAME: gateway
+      DOCKERFILE: ./server/gateway/Dockerfile

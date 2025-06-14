@@ -24,3 +24,4 @@ jobs:
       REGISTRY: ghcr.io
       REPOSITORY: ${{ github.repository }}
       IMAGE_NAME: scheduler
+      DOCKERFILE: ./server/scheduler/Dockerfile
