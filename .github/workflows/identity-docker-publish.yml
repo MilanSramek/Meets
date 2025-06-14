@@ -12,6 +12,9 @@ on:
 jobs:
   build:
     uses: ./.github/workflows/docker-publish.yml
+    permissions:
+      packages: write
+      id-token: write
     with:
       REGISTRY: ghcr.io
       REPOSITORY: ${{ github.repository }}
