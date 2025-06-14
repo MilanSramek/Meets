@@ -1,11 +1,11 @@
-name: SchedulerDockerPublish
+name: IdentityDockerPublish
 
 on:
   push:
     branches:
       - main
     paths:
-      - "server/scheduler/**"
+      - "server/identity/**"
       - "server/common/**"
   workflow_dispatch:
 
@@ -15,4 +15,4 @@ jobs:
     with:
       REGISTRY: ghcr.io
       REPOSITORY: ${{ github.repository }}
-      IMAGE_NAME: scheduler
+      IMAGE_NAME: identity

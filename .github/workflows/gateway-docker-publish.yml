@@ -1,18 +1,17 @@
-name: SchedulerDockerPublish
+name: GatewayDockerPublish
 
 on:
   push:
     branches:
       - main
     paths:
-      - "server/scheduler/**"
-      - "server/common/**"
+      - "server/gateway/**"
   workflow_dispatch:
-
+    
 jobs:
   build:
     uses: ./.github/workflows/docker-publish.yml
     with:
       REGISTRY: ghcr.io
       REPOSITORY: ${{ github.repository }}
-      IMAGE_NAME: scheduler
+      IMAGE_NAME: gateway

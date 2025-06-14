@@ -4,7 +4,7 @@ schema {
 
 type Query {
   "User with a specified ID."
-  user(id: UUID!): User! @cost(weight: "10")
+  userById(id: UUID!): User! @cost(weight: "10")
 }
 
 type User {

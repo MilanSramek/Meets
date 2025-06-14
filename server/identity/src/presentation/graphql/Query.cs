@@ -5,7 +5,7 @@ namespace Meets.Identity;
 
 internal sealed class Query
 {
-    public async Task<UserModel> GetUserAsync(
+    public async Task<UserModel> GetUserByIdAsync(
         Guid id,
         [Service] IReadOnlyRepository<User, Guid> users,
         CancellationToken cancellationToken)
