@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Meets.Identity.RegisterEndpoints;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Meets.Identity;
 
@@ -21,7 +23,8 @@ public static class Registrations
                     };
                     return Task.CompletedTask;
                 });
-            });
+            })
+            .AddRegisterEndpoint();
 
         return services;
     }
