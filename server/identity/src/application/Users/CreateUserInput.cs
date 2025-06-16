@@ -1,7 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Meets.Identity.Users;
 
-public class CreateUserInput
-{
-    public string Username { get; set; }
-    public string Password { get; set; }
-}
+public sealed record CreateUserInput
+(
+    [Required]
+    string Username,
+    [Required]
+    string Password
+);
