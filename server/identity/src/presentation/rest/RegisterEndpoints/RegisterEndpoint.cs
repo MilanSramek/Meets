@@ -12,7 +12,7 @@ public static class RegisterEndpoint
     public static void MapRegisterEndpoint(this IEndpointRouteBuilder app)
     {
         app.MapPost(EndpointPath.Register, async (
-            [FromForm] CreateUserInput input,
+            [FromBody] CreateUserInput input,
             [FromServices] IAccountService accountService,
             CancellationToken cancellationToken) =>
         {
@@ -33,7 +33,6 @@ public static class RegisterEndpoint
                 _ => Results.BadRequest("User creation failed.")
             };
         })
-        .Accepts<CreateUserInput>("application/x-www-form-urlencoded")
         .WithSummary("Register a new user")
         .WithTags("Registration")
         .Produces(StatusCodes.Status200OK)

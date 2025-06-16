@@ -25,13 +25,13 @@ internal sealed class AccountService : IAccountService
 
         await using var unitOfWork = await _unitOfWorkManager.BeginAsync();
 
-        var existingUser = await _userManager.FindByNameAsync(input.UserName);
+        var existingUser = await _userManager.FindByNameAsync(input.Username);
         if (existingUser is { })
         {
             return CreateUserResult.Conflict;
         }
 
-        var user = new User(input.UserName);
+        var user = new User(input.Username);
         var result = await _userManager.CreateAsync(user, input.Password);
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
