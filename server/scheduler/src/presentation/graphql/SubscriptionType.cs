@@ -27,7 +27,7 @@ internal sealed class SubscriptionType : ObjectType
             .Type<PollType>()
             .Argument("id", arg => arg.Type<NonNullType<UuidType>>())
             .Description("Subscribe to a poll by its identifier.")
-            .Resolve(ctx => ctx.GetEventMessage<PollType>())
+            .Resolve(ctx => ctx.GetEventMessage<PollModel>())
             .Subscribe(ctx =>
             {
                 var pollId = ctx.ArgumentValue<Guid>("id");

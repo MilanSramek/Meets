@@ -79,9 +79,10 @@ public sealed class ErrorLogger : ExecutionDiagnosticEventListener
     {
         _logger.LogError(
             error.Exception,
-            "An error occurred while resolving '{path}' for operation '{operationName}' (ID = {operationId})",
+            "An error occurred while resolving '{path}' for operation '{operationName}' (ID = {operationId}): {message}",
             error.Path,
             operation?.Name ?? "<<anonymous>>",
-            operation?.Id ?? "<<unknown>>");
+            operation?.Id ?? "<<unknown>>",
+            error.Message ?? "<<no message>>");
     }
 }
